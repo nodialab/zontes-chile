@@ -1,3 +1,4 @@
+var B=document.documentElement.dataset.base||'';
 (()=>{
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -21,12 +22,12 @@ const st=$('#stage');
 if(st&&window.MODEL){
  const M=window.MODEL,slug=st.dataset.slug,N=M.frames,imgs=$$('.stage__img',st),buf=Buffer(imgs[0],imgs[1]);
  let color=M.colors[0],frame=color.start||0,cache={};
- const url=(c,i)=>`/img/${slug}/360/${c}/${String(((i%N)+N)%N).padStart(2,'0')}.webp`;
+ const url=(c,i)=>`${B}/img/${slug}/360/${c}/${String(((i%N)+N)%N).padStart(2,'0')}.webp`;
  const preload=c=>{if(!N||cache[c])return;cache[c]=[...Array(N)].map((_,i)=>{const im=new Image();im.src=url(c,i);return im})};
  const name=$('#color-name');
  function setColor(c){color=M.colors.find(x=>x.id===c);frame=color.start||0;name.textContent=color.name;
   $$('.sw').forEach(s=>s.setAttribute('aria-pressed',s.dataset.color===c));
-  buf.set(N?url(c,frame):`/img/${slug}/stage/${c}.webp`,`${M.name} color ${color.name}`);
+  buf.set(N?url(c,frame):`${B}/img/${slug}/stage/${c}.webp`,`${M.name} color ${color.name}`);
   if(N)preload(c)}
  $$('.sw').forEach(s=>s.addEventListener('click',()=>setColor(s.dataset.color)));
  if(N){
@@ -49,7 +50,7 @@ if(hs&&window.HOME){
   $$('[data-home]').forEach(x=>x.setAttribute('aria-pressed',x===b));
   buf.set(d.img,'Zontes '+d.name);
   for(const[k,v]of Object.entries({panel:p.panel,ink:p.ink,acc:p.acc,ill1:p.ill1,ill2:p.ill2,ill3:p.ill3}))hero.style.setProperty('--'+k,v);
-  cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="/modelos/${b.dataset.home}/">ver modelo</a>`}));
+  cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="${B}/modelos/${b.dataset.home}/">ver modelo</a>`}));
 }
 
 /* ---- pestañas accesibles ---- */
@@ -76,8 +77,8 @@ if(window.MODEL){
  const M=window.MODEL,dlg=document.createElement('dialog');dlg.className='lb';dlg.setAttribute('aria-label','Visor de fotos');
  dlg.innerHTML='<button class="iconbtn lb__x" aria-label="Cerrar">✕</button><img alt=""><div class="lb__bar"><button class="iconbtn" data-d="-1" aria-label="Anterior">←</button><span class="lb__n"></span><button class="iconbtn" data-d="1" aria-label="Siguiente">→</button></div>';
  document.body.append(dlg);let list=[],i=0,opener=null;
- const show=()=>{const it=list[i];$('img',dlg).src=`/img/${M.slug||location.pathname.split('/')[2]}/g/${it}.webp`;$('img',dlg).alt=M.name+' '+(i+1);$('.lb__n',dlg).textContent=`${i+1} / ${list.length}`};
- const slug=location.pathname.split('/')[2];M.slug=slug;
+ const show=()=>{const it=list[i];$('img',dlg).src=`${B}/img/${M.slug||(location.pathname.match(/modelos\/([^/]+)/)||[])[1]}/g/${it}.webp`;$('img',dlg).alt=M.name+' '+(i+1);$('.lb__n',dlg).textContent=`${i+1} / ${list.length}`};
+ const slug=(location.pathname.match(/modelos\/([^/]+)/)||[])[1];M.slug=slug;
  const open=(l,n,el)=>{list=l;i=n;opener=el;show();dlg.showModal()};
  const step=d=>{i=(i+d+list.length)%list.length;show()};
  document.addEventListener('click',e=>{const b=e.target.closest('[data-lb]');if(!b)return;
@@ -93,7 +94,7 @@ if(window.MODEL){
 const sel=$('#quote-model');
 function fix(slug){if(!sel||!slug)return;sel.value=slug;sel.dispatchEvent(new Event('change'));const q=$('#cotizar');q?.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});setTimeout(()=>$('#quote-form input')?.focus({preventScroll:true}),400)}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-cotizar]');if(!b||!sel)return;e.preventDefault();fix(b.dataset.cotizar);history.replaceState(null,'','#cotizar')});
-if(window.MODEL){const c=$('.nav__cta');if(c){c.href='#cotizar';c.dataset.cotizar=location.pathname.split('/')[2]}}
+if(window.MODEL){const c=$('.nav__cta');if(c){c.href='#cotizar';c.dataset.cotizar=(location.pathname.match(/modelos\/([^/]+)/)||[])[1]}}
 if(sel&&/cotizar=1/.test(location.search)){const f=$('#quote-form').dataset.fixed;if(f)fix(f)}
 const form=$('#quote-form');
 form?.addEventListener('submit',e=>{e.preventDefault();const st=$('#quote-status');let ok=true;
