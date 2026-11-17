@@ -118,9 +118,13 @@ form?.addEventListener('submit',e=>{e.preventDefault();const st=$('#quote-status
  if(!ok){st.className='form__note err';st.textContent='Revisa los campos marcados.';$('[aria-invalid=true]',form).focus();return}
  const d=Object.fromEntries(new FormData(form)),mod=sel.options[sel.selectedIndex].text;
  const body=`Modelo: ${mod}\nNombre: ${d.nombre}\nCorreo: ${d.correo}\nTeléfono: ${d.telefono}\nRegión: ${d.region}\n\n${d.mensaje||''}`;
- st.className='form__note ok';st.textContent='Abriendo tu correo con la solicitud lista para enviar a contacto@imoto.cl…';
- location.href=`mailto:contacto@imoto.cl?subject=${encodeURIComponent('Cotización '+mod)}&body=${encodeURIComponent(body)}`});
-
+ const btn=$('button[type=submit]',form);btn.disabled=true;st.className='form__note';st.textContent='Enviando…';
+ const fd=new FormData(form);fd.append('modelo_nombre',mod);
+ const fallback=()=>{st.className='form__note ok';st.textContent='Abriendo tu correo con la solicitud lista para enviar a contacto@imoto.cl…';location.href=`mailto:contacto@imoto.cl?subject=${encodeURIComponent('Cotización '+mod)}&body=${encodeURIComponent(body)}`};
+ fetch(B+'/enviar.php',{method:'POST',body:fd}).then(r=>r.json().then(j=>({j,r}))).then(({j})=>{
+  if(j.ok){st.className='form__note ok';st.textContent=j.msg;form.reset();if(sel&&form.dataset.fixed)sel.value=form.dataset.fixed}
+  else{st.className='form__note err';st.textContent=j.msg||'No pudimos enviar tu solicitud.'}
+ }).catch(fallback).finally(()=>{btn.disabled=false});});
 /* ---- comparador ---- */
 const cmp=$('#cmp');
 if(cmp&&window.CMP){const sels=$$('[data-cmp]');

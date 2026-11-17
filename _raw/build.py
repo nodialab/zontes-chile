@@ -128,8 +128,8 @@ def quote_section(sel,img):
 <label>Región<select name="region" required>{region_options()}</select></label>
 <label>Modelo<select name="modelo" id="quote-model" required>{model_options(sel)}</select></label>
 <label>Mensaje (opcional)<textarea name="mensaje" rows="3"></textarea></label>
-<button class="btn btn--acc btn--lg" type="submit">Enviar cotización</button>
-<p class="form__note" role="status" aria-live="polite" id="quote-status">Se abrirá tu aplicación de correo con la solicitud dirigida a contacto@imoto.cl.</p>
+<input class="hp" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn btn--acc btn--lg" type="submit">Enviar cotización</button>
+<p class="form__note" role="status" aria-live="polite" id="quote-status">Tu solicitud llega directamente a Imoto, importador oficial de Zontes en Chile.</p>
 </form></div></section>'''
 
 def spec_table(title,labels,vals,icon='check'):
