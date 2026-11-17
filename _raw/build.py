@@ -101,6 +101,9 @@ def price_html(m):
         t+=f'<span class="price">{old}<strong>{m["price"]}</strong></span>'
     return t
 
+VMODEL={'zt703-f':[('nQdR5VwVYWg',0,'ZT703F SuperAdventure','IMOTO')],'zt350t-e':[('XjHG2qu8kYY',0,'ZT350T-E','IMOTO')],'zt350-gk':[('ww9ZlaYYXLY',0,'ZT350 GK','IMOTO')]}
+def vid_card(i,t,n,a):
+    return f'<figure class="vid"><button type="button" class="vid__btn" data-yt="{i}" data-t="{t}" aria-label="Reproducir video: {n}"><img src="https://i.ytimg.com/vi/{i}/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="vid__play" aria-hidden="true"></span></button><figcaption><strong>{n}</strong><span>{a}</span></figcaption></figure>'
 def card(m):
     return f'''<article class="mcard" style="--acc:{m["pal"]["acc"]};--panel:{m["pal"]["panel"]}">
 <a class="mcard__img" href="/modelos/{m["slug"]}/" aria-label="Ver {m["name"]}"><img src="/img/{m["slug"]}/cut.png" alt="{m["name"]}" loading="lazy" width="900" height="500">{'<span class="badge360">360° · arrastra para girar</span>' if MEDIA[m["slug"]].get("frames") else ''}</a>
@@ -116,7 +119,7 @@ def region_options():
 
 def quote_section(sel,img):
     return f'''<section class="sec sec--quote" id="cotizar"><div class="wrap quote">
-<div class="quote__head"><span class="chip">Cotización</span><h2>Cotiza tu {E(BYSLUG[sel]["name"]) if sel in BYSLUG else "Zontes"}</h2>
+<div class="quote__head"><h2>Cotiza tu {E(BYSLUG[sel]["name"]) if sel in BYSLUG else "Zontes"}</h2>
 {f'<img class="quote__moto" src="{img}" alt="{E(BYSLUG[sel]["name"])}" width="900" height="500" loading="lazy">' if img else ''}</div>
 <form class="form" id="quote-form" data-fixed="{sel or ""}" novalidate>
 <label>Nombre<input name="nombre" autocomplete="name" required></label>
@@ -157,6 +160,8 @@ def model_page(m):
     carousel=f'''<section class="sec" id="carrusel"><div class="wrap"><div class="sec__h"><h2>{m["name"]} en imágenes</h2>
 <div class="car__ctl"><button class="iconbtn" data-car="-1" aria-label="Anterior">←</button><button class="iconbtn" data-car="1" aria-label="Siguiente">→</button></div></div>
 <div class="car" id="car" tabindex="0" aria-roledescription="carrusel" aria-label="Fotos de {m["name"]}">{slides}</div><div class="dots" id="dots"></div></div></section>''' if fotos else ''
+    vs=VMODEL.get(slug,[])
+    vsec=('<section class="sec sec--alt" id="video"><div class="wrap"><div class="sec__h">'+ic("camera","ic--h")+'<h2>Video del '+m["name"]+'</h2></div><div class="vgrid vgrid--one">'+''.join(vid_card(*v) for v in vs)+'</div><p class="note">Video publicado en YouTube por Imoto, importador oficial de Zontes en Chile. Se carga solo al pulsar reproducir.</p></div></section>') if vs else ''
     # ficha
     ex=''
     if m['extra']:
@@ -176,17 +181,19 @@ def model_page(m):
     ficha=f'''<section class="sec" id="ficha"><div class="wrap"><div class="sec__h"><h2>Especificaciones</h2>{pdf.replace("btn--line-ink","btn--line") if m["pdf"] else ""}</div>
 {kf}<div class="specs">{spec_table("Motor",MOTOR,m["motor"],"engine")}{spec_table("Chasis",CHASIS,m["chasis"],"frame")}{spec_table("Dimensiones",DIMS,m["dims"],"ruler")}{ex}</div>{feats}{notes}{src}</div></section>'''
     # galería
+    def more_btn(pid,n):
+        return f'<div class="gal__more" data-for="{pid}" {"hidden" if pid=="p-detalle" else ""}><button type="button" class="btn btn--line" data-gmore="{pid}" aria-expanded="false">Ver las {n} fotos</button></div>' if n>8 else ''
     def grid(items,tab):
         return ''.join(f'<button class="gi" data-lb="{slug}" data-tab="{tab}" data-id="{f["id"]}" data-w="{f["w"]}" data-h="{f["h"]}"><img src="/img/{slug}/g/{f["id"]}_t.webp" alt="{m["name"]} {tab} {j+1}" loading="lazy" width="640" height="{round(640*f["h"]/f["w"])}"></button>' for j,f in enumerate(items))
     nf,nd=len(md['fotos']),len(md['detalle'])
     gal=f'''<section class="sec" id="galeria"><div class="wrap"><div class="sec__h"><h2>Galería {m["name"]}</h2></div>
 <div class="tabs" role="tablist" aria-label="Galería"><button role="tab" id="t-fotos" aria-controls="p-fotos" aria-selected="true">Fotos <small>{nf}</small></button><button role="tab" id="t-detalle" aria-controls="p-detalle" aria-selected="false" tabindex="-1">Detalle <small>{nd}</small></button></div>
-<div class="gal" id="p-fotos" role="tabpanel" aria-labelledby="t-fotos">{grid(md["fotos"],"fotos") or '<p class="muted">Sin fotos en esta categoría.</p>'}</div>
-<div class="gal" id="p-detalle" role="tabpanel" aria-labelledby="t-detalle" hidden>{grid(md["detalle"],"detalle") or '<p class="muted">Sin fotos de detalle disponibles.</p>'}</div></div></section>'''
+<div class="gal{' is-collapsed' if nf>8 else ''}" id="p-fotos" role="tabpanel" aria-labelledby="t-fotos">{grid(md["fotos"],"fotos") or '<p class="muted">Sin fotos en esta categoría.</p>'}</div>{more_btn("p-fotos",nf)}
+<div class="gal{' is-collapsed' if nd>8 else ''}" id="p-detalle" role="tabpanel" aria-labelledby="t-detalle" hidden>{grid(md["detalle"],"detalle") or '<p class="muted">Sin fotos de detalle disponibles.</p>'}</div>{more_btn("p-detalle",nd)}</div></section>'''
     others=''.join(f'<a class="mini" href="/modelos/{o["slug"]}/"><img src="/img/{o["slug"]}/cut.png" alt="" loading="lazy" width="900" height="500"><span>{o["name"]}</span></a>' for o in M if o['slug']!=slug)
     more=f'<section class="sec sec--tight"><div class="wrap"><div class="sec__h"><h2>Otros Zontes</h2></div><div class="minis">{others}</div></div></section>'
     gjson=json.dumps({'fotos':[f['id'] for f in md['fotos']],'detalle':[f['id'] for f in md['detalle']],'carousel':[f['id'] for f in fotos],'colors':cols,'frames':frames,'name':m['name']})
-    html_=head(f'{m["name"]} · {m["tag"]} · Zontes Chile',m['lead'],extra_style=style,body_cls='model')+header('/modelos/')+hero+carousel+ficha+gal+quote_section(slug,f'/img/{slug}/cut.png')+more+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.MODEL={gjson}</script><script src="/js/app.js" defer></script>')
+    html_=head(f'{m["name"]} · {m["tag"]} · Zontes Chile',m['lead'],extra_style=style,body_cls='model')+header('/modelos/')+hero+carousel+vsec+ficha+gal+quote_section(slug,f'/img/{slug}/cut.png')+more+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.MODEL={gjson}</script><script src="/js/app.js" defer></script>')
     w(f'modelos/{slug}/index.html',html_)
 
 def models_index():

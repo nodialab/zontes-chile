@@ -152,3 +152,7 @@ if(list&&window.DEAL){const D=window.DEAL,rg=$('#f-region'),q=$('#f-q'),cnt=$('#
 
 /* ---- videos: carga el reproductor solo al pulsar ---- */
 document.querySelectorAll('.vid__btn').forEach(b=>b.addEventListener('click',()=>{const f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.yt+'?autoplay=1&rel=0'+(+b.dataset.t?'&start='+b.dataset.t:'');f.title=b.getAttribute('aria-label').replace('Reproducir video: ','');f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.className='vid__fr';b.replaceWith(f)}));
+
+/* ---- galería: ver todas / ver menos ---- */
+document.querySelectorAll('[data-gmore]').forEach(b=>b.addEventListener('click',()=>{const g=document.getElementById(b.dataset.gmore),c=g.classList.toggle('is-collapsed');b.setAttribute('aria-expanded',!c);b.textContent=c?'Ver las '+g.children.length+' fotos':'Ver menos'}));
+document.querySelectorAll('[role=tab]').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.gal__more').forEach(m=>{m.hidden=m.dataset.for!==t.getAttribute('aria-controls')})}));
