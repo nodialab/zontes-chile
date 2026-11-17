@@ -152,7 +152,7 @@ def model_page(m):
     # carrusel
     fotos=md['fotos'][:8]+ (md['detalle'][:max(0,5-len(md['fotos']))])
     slides=''.join(f'<figure class="slide" id="s{i}"><button class="slide__b" data-lb="{slug}" data-i="{i}" aria-label="Ampliar foto {i+1}"><img src="/img/{slug}/g/{f["id"]}.webp" alt="{m["name"]}, foto {i+1}" loading="lazy" width="{f["w"]}" height="{f["h"]}"></button></figure>' for i,f in enumerate(fotos))
-    carousel=f'''<section class="sec" id="carrusel"><div class="wrap"><div class="sec__h"><span class="chip">Destacadas</span><h2>{m["name"]} en imágenes</h2>
+    carousel=f'''<section class="sec" id="carrusel"><div class="wrap"><div class="sec__h"><h2>{m["name"]} en imágenes</h2>
 <div class="car__ctl"><button class="iconbtn" data-car="-1" aria-label="Anterior">←</button><button class="iconbtn" data-car="1" aria-label="Siguiente">→</button></div></div>
 <div class="car" id="car" tabindex="0" aria-roledescription="carrusel" aria-label="Fotos de {m["name"]}">{slides}</div><div class="dots" id="dots"></div></div></section>''' if fotos else ''
     # ficha
@@ -166,18 +166,18 @@ def model_page(m):
     if any(l.startswith('Altura libre') for l,_ in m['extra']): notes+=f'<p class="note" id="nota-g"><sup>1</sup> {GLOBAL_NOTE}</p>'
     if not m['dims'][1] and any(m['dims']): notes+='<p class="note">La altura de asiento no figura en zontes.cl ni en las fichas disponibles de este modelo, por eso se omite.</p>'
     src=f'<p class="note">{E(m["src_note"])} {E(m["media_note"])}</p>' if m.get('src_note') else '<p class="note">Fuente de datos: '+('ficha técnica PDF oficial de zontes.cl y página del modelo.' if m['pdf'] else 'página del modelo en zontes.cl (no hay ficha PDF publicada).')+f' {E(m["media_note"])}</p>'
-    ficha=f'''<section class="sec" id="ficha"><div class="wrap"><div class="sec__h"><span class="chip">Ficha técnica</span><h2>Especificaciones</h2>{pdf.replace("btn--line-ink","btn--line") if m["pdf"] else ""}</div>
+    ficha=f'''<section class="sec" id="ficha"><div class="wrap"><div class="sec__h"><h2>Especificaciones</h2>{pdf.replace("btn--line-ink","btn--line") if m["pdf"] else ""}</div>
 <div class="specs">{spec_table("Motor",MOTOR,m["motor"])}{spec_table("Chasis",CHASIS,m["chasis"])}{spec_table("Dimensiones",DIMS,m["dims"])}{ex}</div>{feats}{notes}{src}</div></section>'''
     # galería
     def grid(items,tab):
         return ''.join(f'<button class="gi" data-lb="{slug}" data-tab="{tab}" data-id="{f["id"]}" data-w="{f["w"]}" data-h="{f["h"]}"><img src="/img/{slug}/g/{f["id"]}_t.webp" alt="{m["name"]} {tab} {j+1}" loading="lazy" width="640" height="{round(640*f["h"]/f["w"])}"></button>' for j,f in enumerate(items))
     nf,nd=len(md['fotos']),len(md['detalle'])
-    gal=f'''<section class="sec" id="galeria"><div class="wrap"><div class="sec__h"><span class="chip">Galería</span><h2>Galería {m["name"]}</h2></div>
+    gal=f'''<section class="sec" id="galeria"><div class="wrap"><div class="sec__h"><h2>Galería {m["name"]}</h2></div>
 <div class="tabs" role="tablist" aria-label="Galería"><button role="tab" id="t-fotos" aria-controls="p-fotos" aria-selected="true">Fotos <small>{nf}</small></button><button role="tab" id="t-detalle" aria-controls="p-detalle" aria-selected="false" tabindex="-1">Detalle <small>{nd}</small></button></div>
 <div class="gal" id="p-fotos" role="tabpanel" aria-labelledby="t-fotos">{grid(md["fotos"],"fotos") or '<p class="muted">Sin fotos en esta categoría.</p>'}</div>
 <div class="gal" id="p-detalle" role="tabpanel" aria-labelledby="t-detalle" hidden>{grid(md["detalle"],"detalle") or '<p class="muted">Sin fotos de detalle disponibles.</p>'}</div></div></section>'''
     others=''.join(f'<a class="mini" href="/modelos/{o["slug"]}/"><img src="/img/{o["slug"]}/cut.png" alt="" loading="lazy" width="900" height="500"><span>{o["name"]}</span></a>' for o in M if o['slug']!=slug)
-    more=f'<section class="sec sec--tight"><div class="wrap"><div class="sec__h"><span class="chip">Más modelos</span><h2>Otros Zontes</h2></div><div class="minis">{others}</div></div></section>'
+    more=f'<section class="sec sec--tight"><div class="wrap"><div class="sec__h"><h2>Otros Zontes</h2></div><div class="minis">{others}</div></div></section>'
     gjson=json.dumps({'fotos':[f['id'] for f in md['fotos']],'detalle':[f['id'] for f in md['detalle']],'carousel':[f['id'] for f in fotos],'colors':cols,'frames':frames,'name':m['name']})
     html_=head(f'{m["name"]} · {m["tag"]} · Zontes Chile',m['lead'],extra_style=style,body_cls='model')+header('/modelos/')+hero+carousel+ficha+gal+quote_section(slug,f'/img/{slug}/cut.png')+more+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.MODEL={gjson}</script><script src="/js/app.js" defer></script>')
     w(f'modelos/{slug}/index.html',html_)
@@ -190,12 +190,12 @@ def models_index():
     data=json.dumps([{ 'slug':m['slug'],'name':m['name'],'rows':[('Cilindrada',m['motor'][1] or '—'),('Potencia máxima',m['motor'][3] or '—'),('Torque máximo',m['motor'][4] or '—'),('Transmisión',m['motor'][9] or '—'),('Peso en orden de marcha',m['dims'][3] or '—'),('Depósito de combustible',m['dims'][4] or '—'),('Altura del asiento',m['dims'][1] or '—'),('Distancia entre ejes',m['dims'][2] or '—'),('Largo / ancho / alto (mm)',m['dims'][0] or '—'),('Precio',(m.get('price') or m.get('price_tag') or 'Consultar'))]} for m in M],ensure_ascii=False)
     body=f'''<section class="page-h"><div class="wrap"><span class="chip">Línea 2026</span><h1>Modelos</h1><p class="lead">Ocho Zontes con ficha técnica, galería y cotización individual. Compáralos lado a lado o descarga la ficha PDF oficial.</p></div></section>
 <section class="sec sec--tight"><div class="wrap"><div class="mgrid">{cards}</div></div></section>
-<section class="sec" id="comparador"><div class="wrap"><div class="sec__h"><span class="chip">Comparador</span><h2>Compara hasta 3 modelos</h2></div>
+<section class="sec" id="comparador"><div class="wrap"><div class="sec__h"><h2>Compara hasta 3 modelos</h2></div>
 <div class="cmp__sel"><label>Modelo 1<select data-cmp>{opts}</select></label><label>Modelo 2<select data-cmp><option value="">—</option>{opts}</select></label><label>Modelo 3<select data-cmp><option value="">—</option>{opts}</select></label></div>
 <div class="cmp__wrap"><table class="cmp" id="cmp"></table></div><p class="note">Datos de las fichas oficiales y de zontes.cl. “—” indica dato no disponible en las fuentes.</p></div></section>
-<section class="sec" id="fichas"><div class="wrap"><div class="sec__h"><span class="chip">Fichas PDF</span><h2>Fichas técnicas oficiales</h2></div><ul class="pdfs">{pdfs}</ul>
+<section class="sec" id="fichas"><div class="wrap"><div class="sec__h"><h2>Fichas técnicas oficiales</h2></div><ul class="pdfs">{pdfs}</ul>
 <p class="note">Las fichas de ZT200-Z2, ZT350T-E y ZT350T-M son del importador Imoto (imoto.cl); las demás, de zontes.cl. {nopdf}: no hay ficha PDF publicada; sus datos están en la página de cada modelo.</p></div></section>
-<section class="sec sec--tight" id="cotizar-rapido"><div class="wrap"><div class="sec__h"><span class="chip">Cotización</span><h2>¿Cuál te interesa?</h2></div><div class="qpick">{''.join(f'<a class="btn btn--line" data-cotizar="{m["slug"]}" href="/modelos/{m["slug"]}/?cotizar=1#cotizar">Cotizar {m["name"]}</a>' for m in M)}</div></div></section>'''
+<section class="sec sec--tight" id="cotizar-rapido"><div class="wrap"><div class="sec__h"><h2>¿Cuál te interesa?</h2></div><div class="qpick">{''.join(f'<a class="btn btn--line" data-cotizar="{m["slug"]}" href="/modelos/{m["slug"]}/?cotizar=1#cotizar">Cotizar {m["name"]}</a>' for m in M)}</div></div></section>'''
     w('modelos/index.html',head('Modelos · Zontes Chile','Línea de motocicletas Zontes en Chile: ficha técnica, comparador y cotización.')+header('/modelos/')+body+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.CMP={data}</script><script src="/js/app.js" defer></script>'))
 
 def home():
@@ -212,12 +212,12 @@ def home():
 <div class="swatches swatches--chips" role="group" aria-label="Modelo destacado">{chips}</div>
 <p class="stage__cap" id="home-cap"><strong>ZT703-RR</strong> · Súper Sport — <a href="/modelos/zt703-rr/">ver modelo</a></p></div></div></section>'''
     cats=[('Maxiscooter y ADV','zt368t-e','Dos scooters de 367,6 cc con 40 Nm de torque.'),('Adventure','zt703-f','Del 350 cc al 699 cc de tres cilindros.'),('Scrambler y 198 cc','zt350-gk','ZT350-GK, ZT200-U1 y ZT200-G1.'),('Súper Sport','zt703-rr','ZT703-RR con Quickshift y doble disco.')]
-    sec_models=f'''<section class="sec"><div class="wrap"><div class="sec__h"><span class="chip">Modelos</span><h2>Elige tu Zontes</h2><a class="link" href="/modelos/">Ver todos {ARROW}</a></div><div class="mgrid">{cards}</div></div></section>'''
+    sec_models=f'''<section class="sec"><div class="wrap"><div class="sec__h"><h2>Elige tu Zontes</h2><a class="link" href="/modelos/">Ver todos {ARROW}</a></div><div class="mgrid">{cards}</div></div></section>'''
     why=f'''<section class="sec sec--alt"><div class="wrap split"><div><span class="chip">Respaldo</span><h2>Garantía y servicio en Chile</h2>
 <p>Importadora Imoto S.A. ofrece garantía voluntaria de 12 meses o 10.000 km y de 24 meses o 20.000 km, según la pieza, lo que se cumpla primero. Revisa los valores de mantención por kilometraje y los puntos de servicio.</p>
 <div class="cta-row"><a class="btn btn--acc" href="/mantenciones/">Mantenciones y garantía</a><a class="btn btn--line" href="/distribuidores/#servicio">Servicio técnico</a></div></div>
 <ul class="ticks"><li>Motores con inyección electrónica BOSCH</li><li>Llave digital inteligente y conectividad Bluetooth en los modelos mayores</li><li>ABS y control de tracción según modelo</li><li>Fichas técnicas oficiales en PDF para cada modelo con ficha publicada</li></ul></div></section>'''
-    near=f'''<section class="sec"><div class="wrap"><div class="sec__h"><span class="chip">Distribuidores</span><h2>De Antofagasta a Punta Arenas</h2></div>
+    near=f'''<section class="sec"><div class="wrap"><div class="sec__h"><h2>De Antofagasta a Punta Arenas</h2></div>
 <p class="lead">Distribuidores autorizados desde la región de Antofagasta hasta Magallanes. Filtra por región y contacta directamente.</p>
 <div class="regions">{''.join(f'<a class="chip chip--btn" href="/distribuidores/?region={E(r)}">{r}</a>' for r in REGIONS)}</div></div></section>'''
     cta=f'''<section class="sec sec--cta"><div class="wrap cta"><h2>¿Listo para cotizar?</h2><p>Elige un modelo y deja tus datos: te contactamos con valores y disponibilidad.</p><a class="btn btn--acc btn--lg" href="/modelos/#cotizar-rapido">Cotizar ahora</a></div></section>'''
@@ -248,10 +248,10 @@ def maint_page():
     th=''.join(f'<th scope="col">{h}<small>{mm}</small></th>' for h,mm in zip(heads,months))
     rows=''.join(f'<tr><th scope="row">{n}</th>'+''.join(f'<td data-l="{h}">{v}</td>' for v,h in zip(vs,heads))+'</tr>' for n,vs in MANT)
     body=f'''<section class="page-h"><div class="wrap"><span class="chip">Postventa</span><h1>Mantenciones y garantía</h1><p class="lead">Realiza las mantenciones periódicas por tiempo o kilometraje, lo que se cumpla primero: es indispensable para mantener vigente la garantía de fábrica.</p></div></section>
-<section class="sec sec--tight"><div class="wrap"><div class="sec__h"><span class="chip">Valores</span><h2>Valores de mantención por tiempo y kilometraje</h2></div>
+<section class="sec sec--tight"><div class="wrap"><div class="sec__h"><h2>Valores de mantención por tiempo y kilometraje</h2></div>
 <div class="tablewrap"><table class="mtable"><thead><tr><th scope="col">Modelo</th>{th}</tr></thead><tbody>{rows}</tbody></table></div>
 <p class="note">Los valores de cada mantención son referenciales, incluyen IVA y pueden variar según el concesionario que visites. Fuente: tabla de valores de mantención de zontes.cl.</p></div></section>
-<section class="sec"><div class="wrap"><div class="sec__h"><span class="chip">Garantía</span><h2>Garantía extendida o voluntaria</h2></div>
+<section class="sec"><div class="wrap"><div class="sec__h"><h2>Garantía extendida o voluntaria</h2></div>
 <p class="lead">Importadora Imoto S.A. la ofrece como complemento a la garantía legal y garantiza la motocicleta por 12 meses o 10.000 km y por 24 meses o 20.000 km de uso, lo que se cumpla primero, contados desde la fecha de la factura de venta. No considera el cambio de la motocicleta, sólo el cambio o reparación de partes y piezas según la póliza.</p>
 <div class="acc"><details open><summary>12 meses o 10.000 km</summary><p>Batería, bocina, asientos, cable del acelerador, cable del embrague, cable de bloqueo del asiento, cable de bloqueo del depósito de combustible, cable de carga USB, cargador, sellos o retenes.</p></details>
 <details><summary>24 meses o 20.000 km · eléctrico y carrocería</summary><p>Foco principal, luces intermitentes, luz de freno, luz de patente, tablero, rectificador, relés, comandos, cerraduras electrónicas, controlador PKE (incluidas las llaves con chip), controlador de parabrisas, motor de parabrisas, espejos retrovisores, depósito de refrigerante, radiador, termostato, mangueras y tuberías.</p></details>
@@ -269,7 +269,7 @@ def about():
 <p>En Chile, Zontes es importada y respaldada por Importadora Imoto S.A., que ofrece la garantía extendida o voluntaria.</p>
 <p>Casa matriz: Argomedo 363, Santiago. Sucursales en Carmen 754 y Lira 669, Santiago.</p>
 <div class="cta-row"><a class="btn btn--acc" href="/distribuidores/">Red de distribuidores</a><a class="btn btn--line" href="/contacto/">Contacto</a></div></div></div></section>
-<section class="sec sec--alt"><div class="wrap"><div class="sec__h"><span class="chip">Tecnología</span><h2>ZONTES SMART</h2></div>
+<section class="sec sec--alt"><div class="wrap"><div class="sec__h"><h2>ZONTES SMART</h2></div>
 <p class="lead">La app ZONTES SMART permite controlar la moto desde el teléfono, según el modelo. Los modelos mayores incorporan llave inteligente, conectividad Bluetooth y Screen Mirroring.</p>
 <p class="note">Fuente: ficha del ZT703-RR en zontes.com y fichas PDF de zontes.cl. La disponibilidad de funciones varía por modelo; revisa la ficha de cada uno.</p></div></section>'''
     w('nosotros/index.html',head('Nosotros · Zontes Chile','Quién es Zontes y quién la importa y respalda en Chile.')+header('/nosotros/')+body+footer())
