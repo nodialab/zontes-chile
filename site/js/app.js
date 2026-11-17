@@ -156,3 +156,13 @@ document.querySelectorAll('.vid__btn').forEach(b=>b.addEventListener('click',()=
 /* ---- galería: ver todas / ver menos ---- */
 document.querySelectorAll('[data-gmore]').forEach(b=>b.addEventListener('click',()=>{const g=document.getElementById(b.dataset.gmore),c=g.classList.toggle('is-collapsed');b.setAttribute('aria-expanded',!c);b.textContent=c?'Ver las '+g.children.length+' fotos':'Ver menos'}));
 document.querySelectorAll('[role=tab]').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.gal__more').forEach(m=>{m.hidden=m.dataset.for!==t.getAttribute('aria-controls')})}));
+
+/* ---- pop-up inicial (una vez por sesión) ---- */
+(()=>{const d=document.getElementById('popup');if(!d||!d.showModal)return;
+ let seen=false;try{seen=sessionStorage.getItem('popup')==='1'}catch(e){}
+ if(seen)return;
+ const close=()=>{d.close();try{sessionStorage.setItem('popup','1')}catch(e){}};
+ d.querySelector('[data-popup-close]').addEventListener('click',close);
+ d.addEventListener('click',e=>{if(e.target===d)close()});
+ d.addEventListener('cancel',()=>{try{sessionStorage.setItem('popup','1')}catch(e){}});
+ setTimeout(()=>{if(!d.open)d.showModal()},600)})();

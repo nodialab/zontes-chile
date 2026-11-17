@@ -212,6 +212,7 @@ def models_index():
 <section class="sec sec--tight" id="cotizar-rapido"><div class="wrap"><div class="sec__h"><h2>¿Cuál te interesa?</h2></div><div class="qpick">{''.join(f'<a class="btn btn--line" data-cotizar="{m["slug"]}" href="/modelos/{m["slug"]}/?cotizar=1#cotizar">Cotizar {m["name"]}</a>' for m in M)}</div></div></section>'''
     w('modelos/index.html',head('Modelos · Zontes Chile','Línea de motocicletas Zontes en Chile: ficha técnica, comparador y cotización.')+header('/modelos/')+body+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.CMP={data}</script><script src="/js/app.js" defer></script>'))
 
+POPUP='''<dialog class="popup" id="popup" aria-label="Promoción: 24 cuotas sin interés con tarjetas Santander"><button type="button" class="popup__x" data-popup-close aria-label="Cerrar">&times;</button><img src="/img/popup.jpeg" alt="Compra tu moto Zontes en 24 cuotas sin interés con tus tarjetas de crédito Santander. CFT 1,51% calculado por un monto referencial de compra de $1.000.000 en 24 cuotas. Costo total del crédito: $1.015.840. Operación afecta a impuesto al crédito a cargo del cliente. Revisa términos y condiciones del crédito en www.santander.cl/legales_24_cuotas_santander.pdf" width="1254" height="1254"></dialog>'''
 def home():
     feat=[m['slug'] for m in M]
     chips=''.join(f'<button type="button" class="chip chip--btn" data-home="{s}" aria-pressed="{"true" if s=="zt703-rr" else "false"}">{BYSLUG[s]["name"]}</button>' for i,s in enumerate(feat))
@@ -252,7 +253,7 @@ def home():
 <div class="regions">{''.join(f'<a class="chip chip--btn" href="/distribuidores/?region={E(r)}">{ic("pin")}{r}</a>' for r in REGIONS)}</div></div></section>'''
     cta=f'''<section class="sec sec--cta"><div class="wrap cta cta--img"><div><h2>¿Listo para cotizar?</h2><p>Elige un modelo y deja tus datos: te contactamos con valores y disponibilidad.</p><a class="btn btn--acc btn--lg" href="/modelos/#cotizar-rapido">Cotizar ahora{ARROW}</a></div>
 <img src="/img/zt703-rr/cut.png" alt="" loading="lazy" width="900" height="475"></div></section>'''
-    w('index.html',head('Zontes Chile · Motocicletas','Zontes en Chile: scooters, adventure, scrambler y súper sport. Fichas técnicas, galerías y cotización.',body_cls='home')+header('/')+hero+sec_models+mosaic+videos+techs+why+near+cta+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.HOME={hdata}</script><script src="/js/app.js" defer></script>'))
+    w('index.html',head('Zontes Chile · Motocicletas','Zontes en Chile: scooters, adventure, scrambler y súper sport. Fichas técnicas, galerías y cotización.',body_cls='home')+header('/')+hero+sec_models+mosaic+videos+techs+why+near+cta+POPUP+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.HOME={hdata}</script><script src="/js/app.js" defer></script>'))
 
 def dealers_page():
     st=json.load(open(R+'_raw/st_rows.json'))
