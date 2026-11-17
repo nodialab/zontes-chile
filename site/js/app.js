@@ -46,11 +46,19 @@ if(st&&window.MODEL){
 const hs=$('#home-stage');
 if(hs&&window.HOME){
  const imgs=$$('.stage__img',hs),buf=Buffer(imgs[0],imgs[1]),hero=$('#hero'),cap=$('#home-cap');
- $$('[data-home]').forEach(b=>b.addEventListener('click',()=>{const d=window.HOME[b.dataset.home],p=d.pal;
+ const show=b=>{const d=window.HOME[b.dataset.home],p=d.pal;
   $$('[data-home]').forEach(x=>x.setAttribute('aria-pressed',x===b));
   buf.set(d.img,'Zontes '+d.name);
   for(const[k,v]of Object.entries({panel:p.panel,ink:p.ink,acc:p.acc,ill1:p.ill1,ill2:p.ill2,ill3:p.ill3}))hero.style.setProperty('--'+k,v);
-  cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="${B}/modelos/${b.dataset.home}/">ver modelo</a>`}));
+  cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="${B}/modelos/${b.dataset.home}/">ver modelo</a>`};
+ const chips=$$('[data-home]');let auto=null,idx=Math.max(0,chips.findIndex(x=>x.getAttribute('aria-pressed')==='true'));
+ const stop=()=>{if(auto){clearInterval(auto);auto=null}};
+ chips.forEach((b,i)=>b.addEventListener('click',()=>{stop();idx=i;show(b)}));
+ if(!rm){const go=()=>{idx=(idx+1)%chips.length;show(chips[idx])};
+  let hold=false;const zone=hs.closest('.hero__moto');
+  zone.addEventListener('pointerenter',()=>hold=true);zone.addEventListener('pointerleave',()=>hold=false);
+  zone.addEventListener('focusin',()=>hold=true);zone.addEventListener('focusout',()=>hold=false);
+  auto=setInterval(()=>{if(!hold&&!document.hidden)go()},4500)}
 }
 
 /* ---- pestañas accesibles ---- */
@@ -124,7 +132,7 @@ if(list&&window.DEAL){const D=window.DEAL,rg=$('#f-region'),q=$('#f-q'),cnt=$('#
  const draw=()=>{const src=D[mode==='dealers'?'dealers':'service'],t=norm(q.value);
   const r=src.filter(d=>(!rg.value||d.region===rg.value)&&(!zone||zoneOf(d.region)===zone)&&(!t||norm(d.comuna+' '+d.nombre).includes(t)));
   cnt.textContent=`${r.length} ${r.length===1?'resultado':'resultados'}${rg.value?' en '+rg.value:''}`;
-  list.innerHTML=r.map(d=>`<article class="dcard"><span class="chip">${d.region}</span><h3>${esc(d.nombre)}</h3><p><strong>${esc(d.comuna)}</strong>${d.dir?' · '+esc(d.dir):''}</p>${d.tel?`<p>Tel. ${esc(d.tel)}</p>`:''}${d.cel?`<p>Cel. ${esc(d.cel)}</p>`:''}${d.mail?`<p>${mail(d.mail)}</p>`:''}</article>`).join('')||'<p class="muted">No hay puntos con ese filtro. Prueba otra región o limpia la búsqueda.</p>'};
+  list.innerHTML=r.map(d=>`<article class="dcard"><span class="chip">${d.region}</span><h3>${esc(d.nombre)}</h3><p class="ir"><svg class="ic ic--s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg><span><strong>${esc(d.comuna)}</strong>${d.dir?' · '+esc(d.dir):''}</span></p>${d.tel?`<p class="ir"><svg class="ic ic--s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg><span>Tel. ${esc(d.tel)}</span></p>`:''}${d.cel?`<p class="ir"><svg class="ic ic--s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chat"/></svg><span>Cel. ${esc(d.cel)}</span></p>`:''}${d.mail?`<p class="ir"><svg class="ic ic--s" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg><span>${mail(d.mail)}</span></p>`:''}</article>`).join('')||'<p class="muted">No hay puntos con ese filtro. Prueba otra región o limpia la búsqueda.</p>'};
  const tab=tabs($('.tabs'),x=>{mode=x.id==='t-svc'?'service':'dealers';draw()});
  rg.addEventListener('change',draw);q.addEventListener('input',draw);
  zones.addEventListener('click',e=>{const b=e.target.closest('[data-zone]');if(!b)return;zone=b.dataset.zone;$$('[data-zone]',zones).forEach(x=>x.setAttribute('aria-pressed',x===b));if(zone&&rg.value&&zoneOf(rg.value)!==zone)rg.value='';draw()});

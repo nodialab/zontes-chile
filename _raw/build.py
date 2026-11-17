@@ -1,6 +1,7 @@
 import os,json,shutil,html,re,sys
 sys.path.insert(0,os.path.dirname(__file__))
 from data import *
+from icons import ic,sprite,feat_icon,spec_icon
 R='/Users/ansokbeatz/Documents/AI Projects/Zontes/'
 S=R+'site/'
 MEDIA=json.load(open(R+'data/media.json'))
@@ -68,7 +69,7 @@ def head(title,desc,path='/',extra_style='',body_cls=''):
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css">
 <style>{extra_style}</style></head>
-<body class="{body_cls}"><a class="skip" href="#main">Saltar al contenido</a>'''
+<body class="{body_cls}">{sprite()}<a class="skip" href="#main">Saltar al contenido</a>'''
 
 NAV=[('/','Inicio'),('/modelos/','Modelos'),('/distribuidores/','Distribuidores'),('/mantenciones/','Mantenciones'),('/nosotros/','Nosotros'),('/contacto/','Contacto')]
 def header(cur):
@@ -82,12 +83,13 @@ def header(cur):
 
 def footer():
     links=''.join(f'<li><a href="/modelos/{m["slug"]}/">{m["name"]}</a></li>' for m in M)
+    ci=lambda n,t:f'<li>{ic(n)}<span>{t}</span></li>' 
     return f'''</main><footer class="ftr"><div class="wrap ftr__grid">
 <div><a class="logo" href="/"><img src="/img/logo-zontes.png" width="147" height="26" alt="Zontes"><em>Chile</em></a><p>Motocicletas Zontes en Chile, importadas y distribuidas por Importadora Imoto S.A.</p>
 <p class="muted">Los datos técnicos pueden modificarse según los requisitos de producción y del mercado. Todas las imágenes son referenciales.</p></div>
-<div><h3>Modelos</h3><ul>{links}</ul></div>
+<div><h3>Modelos</h3><ul class="ftr__models">{links}</ul></div>
 <div><h3>Sitio</h3><ul><li><a href="/distribuidores/">Distribuidores</a></li><li><a href="/mantenciones/">Mantenciones y garantía</a></li><li><a href="/nosotros/">Nosotros</a></li><li><a href="/contacto/">Contacto</a></li><li><a href="/derechos/">Derechos del consumidor</a></li></ul></div>
-<div><h3>Contacto</h3><ul><li><a href="mailto:contacto@imoto.cl">contacto@imoto.cl</a></li><li>Venta de repuestos: +56 2 2916 7889</li><li><a href="https://wa.me/56966893098" rel="noopener">WhatsApp +56 9 6689 3098</a></li><li>Casa matriz: Argomedo 363, Santiago</li></ul></div>
+<div><h3>Contacto</h3><ul class="ftr__ct">{ci("mail",'<a href="mailto:contacto@imoto.cl">contacto@imoto.cl</a>')}{ci("phone","Venta de repuestos: +56 2 2916 7889")}{ci("chat",'<a href="https://wa.me/56966893098" rel="noopener">WhatsApp +56 9 6689 3098</a>')}{ci("pin","Casa matriz: Argomedo 363, Santiago")}</ul></div>
 </div><div class="wrap ftr__bar"><span>© Zontes Chile · Sitio de demostración basado en zontes.cl y zontes.com</span><a href="#top">Volver arriba ↑</a></div></footer>
 <script src="/js/app.js" defer></script></body></html>'''
 
@@ -127,10 +129,10 @@ def quote_section(sel,img):
 <p class="form__note" role="status" aria-live="polite" id="quote-status">Se abrirá tu aplicación de correo con la solicitud dirigida a contacto@imoto.cl.</p>
 </form></div></section>'''
 
-def spec_table(title,labels,vals):
-    rows=''.join(f'<tr><th scope="row">{l}</th><td>{E(v)}</td></tr>' for l,v in zip(labels,vals) if v)
+def spec_table(title,labels,vals,icon='check'):
+    rows=''.join(f'<tr><th scope="row"><span class="lbl">{ic(spec_icon(l))}{l}</span></th><td>{E(v)}</td></tr>' for l,v in zip(labels,vals) if v)
     if not rows: return ''
-    return f'<div class="spec"><h3>{title}</h3><table>{rows}</table></div>'
+    return f'<div class="spec"><h3>{ic(icon,"ic--h")}{title}</h3><table>{rows}</table></div>'
 
 def model_page(m):
     slug=m['slug']; md=MEDIA[slug]; pal=m['pal']
@@ -138,7 +140,7 @@ def model_page(m):
     style=f':root{{--panel:{pal["panel"]};--ink:{pal["ink"]};--acc:{pal["acc"]};--ill1:{pal["ill1"]};--ill2:{pal["ill2"]};--ill3:{pal["ill3"]}}}'
     swatches=''.join(f'<button type="button" class="sw" data-color="{c["id"]}" data-start="{c.get("start",0)}" style="--c:{c["hex"]}" aria-label="{c["name"]}" aria-pressed="{"true" if i==0 else "false"}"><span></span></button>' for i,c in enumerate(cols))
     first=cols[0]
-    pdf=f'<a class="btn btn--line-ink" href="/fichas/{m["pdf"]}" download>Ficha técnica PDF</a>' if m['pdf'] else '<a class="btn btn--line-ink" href="#ficha">Ver ficha técnica</a>'
+    pdf=f'<a class="btn btn--line-ink" href="/fichas/{m["pdf"]}" download>{ic("download")}Ficha técnica PDF</a>' if m['pdf'] else '<a class="btn btn--line-ink" href="#ficha">Ver ficha técnica</a>'
     hero=f'''<section class="hero" id="hero">{ill(m["kind"])}<div class="wrap hero__grid">
 <div class="hero__txt"><span class="chip chip--ink">{m["tag"]}</span><h1>{m["name"]}</h1><p class="hero__lead">{E(m["lead"])}</p>
 <div class="hero__price">{price_html(m)}</div>
@@ -158,16 +160,21 @@ def model_page(m):
     # ficha
     ex=''
     if m['extra']:
-        ex='<div class="spec"><h3>Datos adicionales</h3><table>'+''.join(f'<tr><th scope="row">{l}</th><td>{E(v)}{"<sup><a href=\"#nota-g\" aria-label=\"Nota\">1</a></sup>" if l.startswith("Altura libre") else ""}</td></tr>' for l,v in m['extra'])+'</table></div>'
+        ex='<div class="spec"><h3>'+ic('star','ic--h')+'Datos adicionales</h3><table>'+''.join(f'<tr><th scope="row"><span class="lbl">{ic(spec_icon(l))}{l}</span></th><td>{E(v)}{"<sup><a href=\"#nota-g\" aria-label=\"Nota\">1</a></sup>" if l.startswith("Altura libre") else ""}</td></tr>' for l,v in m['extra'])+'</table></div>'
     feats=''
     if m['feats']:
-        feats='<div class="feats"><h3>Características principales</h3><ul>'+''.join(f'<li>{E(f)}</li>' for f in m['feats'])+'</ul></div>'
+        feats='<div class="feats"><h3>Características principales</h3><ul>'+''.join(f'<li>{ic(feat_icon(f),"ic--feat")}<span>{E(f)}</span></li>' for f in m['feats'])+'</ul></div>'
     notes='<p class="note">Los datos técnicos pueden modificarse según los requisitos de producción y del mercado. Las especificaciones están sujetas a cambios sin previo aviso. Los datos pueden variar según las condiciones de medición. Todas las imágenes son referenciales.</p>'
     if any(l.startswith('Altura libre') for l,_ in m['extra']): notes+=f'<p class="note" id="nota-g"><sup>1</sup> {GLOBAL_NOTE}</p>'
     if not m['dims'][1] and any(m['dims']): notes+='<p class="note">La altura de asiento no figura en zontes.cl ni en las fichas disponibles de este modelo, por eso se omite.</p>'
     src=f'<p class="note">{E(m["src_note"])} {E(m["media_note"])}</p>' if m.get('src_note') else '<p class="note">Fuente de datos: '+('ficha técnica PDF oficial de zontes.cl y página del modelo.' if m['pdf'] else 'página del modelo en zontes.cl (no hay ficha PDF publicada).')+f' {E(m["media_note"])}</p>'
+    def kv(v):
+        a,_,b=v.partition(' a ')
+        return f'<strong>{E(a)}</strong>'+(f'<small>a {E(b)}</small>' if b else '')
+    kfi=[(n,l,v) for n,l,v in (('piston','Cilindrada',m['motor'][1]),('bolt','Potencia',m['motor'][3]),('torque','Torque',m['motor'][4]),('weight','Peso',m['dims'][3]),('fuel','Depósito',m['dims'][4])) if v][:4]
+    kf='<ul class="kf">'+''.join(f'<li>{ic(n,"ic--kf")}<span>{l}</span>{kv(v)}</li>' for n,l,v in kfi)+'</ul>' if kfi else ''
     ficha=f'''<section class="sec" id="ficha"><div class="wrap"><div class="sec__h"><h2>Especificaciones</h2>{pdf.replace("btn--line-ink","btn--line") if m["pdf"] else ""}</div>
-<div class="specs">{spec_table("Motor",MOTOR,m["motor"])}{spec_table("Chasis",CHASIS,m["chasis"])}{spec_table("Dimensiones",DIMS,m["dims"])}{ex}</div>{feats}{notes}{src}</div></section>'''
+{kf}<div class="specs">{spec_table("Motor",MOTOR,m["motor"],"engine")}{spec_table("Chasis",CHASIS,m["chasis"],"frame")}{spec_table("Dimensiones",DIMS,m["dims"],"ruler")}{ex}</div>{feats}{notes}{src}</div></section>'''
     # galería
     def grid(items,tab):
         return ''.join(f'<button class="gi" data-lb="{slug}" data-tab="{tab}" data-id="{f["id"]}" data-w="{f["w"]}" data-h="{f["h"]}"><img src="/img/{slug}/g/{f["id"]}_t.webp" alt="{m["name"]} {tab} {j+1}" loading="lazy" width="640" height="{round(640*f["h"]/f["w"])}"></button>' for j,f in enumerate(items))
@@ -199,8 +206,8 @@ def models_index():
     w('modelos/index.html',head('Modelos · Zontes Chile','Línea de motocicletas Zontes en Chile: ficha técnica, comparador y cotización.')+header('/modelos/')+body+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.CMP={data}</script><script src="/js/app.js" defer></script>'))
 
 def home():
-    feat=['zt703-rr','zt368t-e','zt350-t2','zt200-u1']
-    chips=''.join(f'<button type="button" class="chip chip--btn" data-home="{s}" aria-pressed="{"true" if i==0 else "false"}">{BYSLUG[s]["name"]}</button>' for i,s in enumerate(feat))
+    feat=[m['slug'] for m in M]
+    chips=''.join(f'<button type="button" class="chip chip--btn" data-home="{s}" aria-pressed="{"true" if s=="zt703-rr" else "false"}">{BYSLUG[s]["name"]}</button>' for i,s in enumerate(feat))
     hdata=json.dumps({s:{'name':BYSLUG[s]['name'],'tag':BYSLUG[s]['tag'],'lead':BYSLUG[s]['lead'],'img':f'/img/{s}/stage/{MEDIA[s]["colors"][0]["id"]}.webp','pal':BYSLUG[s]['pal'],'kind':BYSLUG[s]['kind']} for s in feat},ensure_ascii=False)
     p=BYSLUG['zt703-rr']['pal']
     cards=''.join(card(m) for m in M)
@@ -213,15 +220,30 @@ def home():
 <p class="stage__cap" id="home-cap"><strong>ZT703-RR</strong> · Súper Sport — <a href="/modelos/zt703-rr/">ver modelo</a></p></div></div></section>'''
     cats=[('Maxiscooter y ADV','zt368t-e','Dos scooters de 367,6 cc con 40 Nm de torque.'),('Adventure','zt703-f','Del 350 cc al 699 cc de tres cilindros.'),('Scrambler y 198 cc','zt350-gk','ZT350-GK, ZT200-U1 y ZT200-G1.'),('Súper Sport','zt703-rr','ZT703-RR con Quickshift y doble disco.')]
     sec_models=f'''<section class="sec"><div class="wrap"><div class="sec__h"><h2>Elige tu Zontes</h2><a class="link" href="/modelos/">Ver todos {ARROW}</a></div><div class="mgrid">{cards}</div></div></section>'''
-    why=f'''<section class="sec sec--alt"><div class="wrap split"><div><span class="chip">Respaldo</span><h2>Garantía y servicio en Chile</h2>
+    def foto(slug,k=0):
+        md=MEDIA[slug]; L=md['fotos']+md['detalle']; f=L[min(k,len(L)-1)]; return f
+    def tile(slug,cls='',k=0,full=False):
+        f=foto(slug,k); m=BYSLUG[slug]
+        src=f'/img/{slug}/g/{f["id"]}{"" if full else "_t"}.webp'
+        return f'<a class="tile {cls}" href="/modelos/{slug}/"><img src="{src}" alt="{m["name"]}" loading="lazy" width="{f["w"]}" height="{f["h"]}"><span class="tile__c"><strong>{m["name"]}</strong><small>{E(m["tag"])}</small></span></a>'
+    mosaic=f'''<section class="sec sec--alt"><div class="wrap"><div class="sec__h">{ic("camera","ic--h")}<h2>Míralas de cerca</h2><a class="link" href="/modelos/">Todas las galerías {ARROW}</a></div>
+<div class="mosaic">{tile("zt703-rr","tile--big",2,True)}{tile("zt368t-e")}{tile("zt350-t2")}{tile("zt703-f","tile--wide",0,True)}{tile("zt350-gk")}{tile("zt200-u1")}{tile("zt368t-g")}{tile("zt200-g1")}</div></div></section>'''
+    tech=[('injection','Inyección electrónica Bosch','Alimentación de combustible electrónica en los modelos con ficha publicada.'),('abs','Frenos con ABS','ABS Bosch y, en algunos modelos, control de tracción.'),('key','Llave inteligente','Arranque sin llave en los modelos mayores.'),('screen','Tablero digital','Pantalla LCD o TFT a todo color, según modelo.'),('light','Iluminación full LED','Focos y luces LED en la mayoría de la línea.'),('bluetooth','Conectividad','Bluetooth, app ZONTES SMART y Screen Mirroring en los modelos mayores.')]
+    techs=f'''<section class="sec"><div class="wrap"><div class="sec__h">{ic("bolt","ic--h")}<h2>Tecnología a bordo</h2></div>
+<ul class="techgrid">{''.join(f'<li class="tech">{ic(n,"ic--lg")}<h3>{t}</h3><p>{d}</p></li>' for n,t,d in tech)}</ul>
+<p class="note">La disponibilidad de cada equipo varía según el modelo; revisa la ficha de cada uno.</p></div></section>'''
+    pf=foto('zt350-t2',1)
+    why=f'''<section class="sec sec--alt"><div class="wrap split split--media"><div>{ic("shield","ic--h")}<h2>Garantía y servicio en Chile</h2>
 <p>Importadora Imoto S.A. ofrece garantía voluntaria de 12 meses o 10.000 km y de 24 meses o 20.000 km, según la pieza, lo que se cumpla primero. Revisa los valores de mantención por kilometraje y los puntos de servicio.</p>
-<div class="cta-row"><a class="btn btn--acc" href="/mantenciones/">Mantenciones y garantía</a><a class="btn btn--line" href="/distribuidores/#servicio">Servicio técnico</a></div></div>
-<ul class="ticks"><li>Motores con inyección electrónica BOSCH</li><li>Llave digital inteligente y conectividad Bluetooth en los modelos mayores</li><li>ABS y control de tracción según modelo</li><li>Fichas técnicas oficiales en PDF para cada modelo con ficha publicada</li></ul></div></section>'''
-    near=f'''<section class="sec"><div class="wrap"><div class="sec__h"><h2>De Antofagasta a Punta Arenas</h2></div>
+<ul class="ticks">{''.join(f'<li>{ic(n,"ic--feat")}<span>{t}</span></li>' for n,t in (('clock','Garantía de 12 meses o 10.000 km y de 24 meses o 20.000 km'),('wrench','Mantenciones por tiempo o kilometraje'),('pin','Servicios técnicos autorizados por región'),('file','Ficha técnica en PDF de cada modelo con ficha publicada')))}</ul>
+<div class="cta-row"><a class="btn btn--acc" href="/mantenciones/">{ic("wrench")}Mantenciones y garantía</a><a class="btn btn--line" href="/distribuidores/#servicio">{ic("pin")}Servicio técnico</a></div></div>
+<figure class="media"><img src="/img/zt350-t2/g/{pf["id"]}.webp" alt="Zontes ZT350-T2" loading="lazy" width="{pf["w"]}" height="{pf["h"]}"></figure></div></section>'''
+    near=f'''<section class="sec"><div class="wrap"><div class="sec__h">{ic("pin","ic--h")}<h2>De Antofagasta a Punta Arenas</h2></div>
 <p class="lead">Distribuidores autorizados desde la región de Antofagasta hasta Magallanes. Filtra por región y contacta directamente.</p>
-<div class="regions">{''.join(f'<a class="chip chip--btn" href="/distribuidores/?region={E(r)}">{r}</a>' for r in REGIONS)}</div></div></section>'''
-    cta=f'''<section class="sec sec--cta"><div class="wrap cta"><h2>¿Listo para cotizar?</h2><p>Elige un modelo y deja tus datos: te contactamos con valores y disponibilidad.</p><a class="btn btn--acc btn--lg" href="/modelos/#cotizar-rapido">Cotizar ahora</a></div></section>'''
-    w('index.html',head('Zontes Chile · Motocicletas','Zontes en Chile: scooters, adventure, scrambler y súper sport. Fichas técnicas, galerías y cotización.',body_cls='home')+header('/')+hero+sec_models+why+near+cta+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.HOME={hdata}</script><script src="/js/app.js" defer></script>'))
+<div class="regions">{''.join(f'<a class="chip chip--btn" href="/distribuidores/?region={E(r)}">{ic("pin")}{r}</a>' for r in REGIONS)}</div></div></section>'''
+    cta=f'''<section class="sec sec--cta"><div class="wrap cta cta--img"><div><h2>¿Listo para cotizar?</h2><p>Elige un modelo y deja tus datos: te contactamos con valores y disponibilidad.</p><a class="btn btn--acc btn--lg" href="/modelos/#cotizar-rapido">Cotizar ahora{ARROW}</a></div>
+<img src="/img/zt703-rr/cut.png" alt="" loading="lazy" width="900" height="475"></div></section>'''
+    w('index.html',head('Zontes Chile · Motocicletas','Zontes en Chile: scooters, adventure, scrambler y súper sport. Fichas técnicas, galerías y cotización.',body_cls='home')+header('/')+hero+sec_models+mosaic+techs+why+near+cta+footer().replace('<script src="/js/app.js" defer></script>',f'<script>window.HOME={hdata}</script><script src="/js/app.js" defer></script>'))
 
 def dealers_page():
     st=json.load(open(R+'_raw/st_rows.json'))
@@ -253,9 +275,9 @@ def maint_page():
 <p class="note">Los valores de cada mantención son referenciales, incluyen IVA y pueden variar según el concesionario que visites. Fuente: tabla de valores de mantención de zontes.cl.</p></div></section>
 <section class="sec"><div class="wrap"><div class="sec__h"><h2>Garantía extendida o voluntaria</h2></div>
 <p class="lead">Importadora Imoto S.A. la ofrece como complemento a la garantía legal y garantiza la motocicleta por 12 meses o 10.000 km y por 24 meses o 20.000 km de uso, lo que se cumpla primero, contados desde la fecha de la factura de venta. No considera el cambio de la motocicleta, sólo el cambio o reparación de partes y piezas según la póliza.</p>
-<div class="acc"><details open><summary>12 meses o 10.000 km</summary><p>Batería, bocina, asientos, cable del acelerador, cable del embrague, cable de bloqueo del asiento, cable de bloqueo del depósito de combustible, cable de carga USB, cargador, sellos o retenes.</p></details>
-<details><summary>24 meses o 20.000 km · eléctrico y carrocería</summary><p>Foco principal, luces intermitentes, luz de freno, luz de patente, tablero, rectificador, relés, comandos, cerraduras electrónicas, controlador PKE (incluidas las llaves con chip), controlador de parabrisas, motor de parabrisas, espejos retrovisores, depósito de refrigerante, radiador, termostato, mangueras y tuberías.</p></details>
-<details><summary>24 meses o 20.000 km · motor y chasis</summary><p>Cárter, tapas de motor, culata, tapa de culata, cigüeñal, válvulas, eje de leva, balancín, ejes principal y secundario, estator, volante, embrague (excluye discos y separadores), bomba de aceite, engranajes y cadena de distribución, cilindro, pistón, anillos de pistón, pasador de pistón, motor de arranque, chasis, silenciador, llantas delantera y trasera, pedalines, torre de dirección, horquilla delantera, amortiguador trasero, discos de freno, depósito de combustible, depósito de aceite, ECU, componentes del cuerpo de aceleración, sensores del sistema de inyección electrónica, bomba de combustible.</p></details></div>
+<div class="acc"><details open><summary>{ic("clock")}12 meses o 10.000 km</summary><p>Batería, bocina, asientos, cable del acelerador, cable del embrague, cable de bloqueo del asiento, cable de bloqueo del depósito de combustible, cable de carga USB, cargador, sellos o retenes.</p></details>
+<details><summary>{ic("bolt")}24 meses o 20.000 km · eléctrico y carrocería</summary><p>Foco principal, luces intermitentes, luz de freno, luz de patente, tablero, rectificador, relés, comandos, cerraduras electrónicas, controlador PKE (incluidas las llaves con chip), controlador de parabrisas, motor de parabrisas, espejos retrovisores, depósito de refrigerante, radiador, termostato, mangueras y tuberías.</p></details>
+<details><summary>{ic("engine")}24 meses o 20.000 km · motor y chasis</summary><p>Cárter, tapas de motor, culata, tapa de culata, cigüeñal, válvulas, eje de leva, balancín, ejes principal y secundario, estator, volante, embrague (excluye discos y separadores), bomba de aceite, engranajes y cadena de distribución, cilindro, pistón, anillos de pistón, pasador de pistón, motor de arranque, chasis, silenciador, llantas delantera y trasera, pedalines, torre de dirección, horquilla delantera, amortiguador trasero, discos de freno, depósito de combustible, depósito de aceite, ECU, componentes del cuerpo de aceleración, sensores del sistema de inyección electrónica, bomba de combustible.</p></details></div>
 <div class="cta-row"><a class="btn btn--acc" href="/distribuidores/#servicio">Servicio técnico autorizado</a><a class="btn btn--line" href="/derechos/">Derechos y garantías del consumidor</a></div></div></section>'''
     w('mantenciones/index.html',head('Mantenciones y garantía · Zontes Chile','Valores de mantención por kilometraje y condiciones de garantía de las motos Zontes en Chile.')+header('/mantenciones/')+body+footer())
 
@@ -272,16 +294,17 @@ def about():
 <section class="sec sec--alt"><div class="wrap"><div class="sec__h"><h2>ZONTES SMART</h2></div>
 <p class="lead">La app ZONTES SMART permite controlar la moto desde el teléfono, según el modelo. Los modelos mayores incorporan llave inteligente, conectividad Bluetooth y Screen Mirroring.</p>
 <p class="note">Fuente: ficha del ZT703-RR en zontes.com y fichas PDF de zontes.cl. La disponibilidad de funciones varía por modelo; revisa la ficha de cada uno.</p></div></section>'''
+    body=body.replace('<h2>Zontes y Tayo</h2>',ic('award','ic--h')+'<h2>Zontes y Tayo</h2>').replace('<h2>Importadora Imoto S.A.</h2>',ic('globe','ic--h')+'<h2>Importadora Imoto S.A.</h2>').replace('<h2>ZONTES SMART</h2>',ic('phone-app','ic--h')+'<h2>ZONTES SMART</h2>')
     w('nosotros/index.html',head('Nosotros · Zontes Chile','Quién es Zontes y quién la importa y respalda en Chile.')+header('/nosotros/')+body+footer())
 
 def contact():
-    body='''<section class="page-h"><div class="wrap"><span class="chip">Hablemos</span><h1>Contacto</h1><p class="lead">Escríbenos o visita una sucursal de Importadora Imoto en Santiago.</p></div></section>
+    body=f'''<section class="page-h"><div class="wrap"><span class="chip">Hablemos</span><h1>Contacto</h1><p class="lead">Escríbenos o visita una sucursal de Importadora Imoto en Santiago.</p></div></section>
 <section class="sec sec--tight"><div class="wrap cgrid">
-<article class="ccard"><h3>Venta de repuestos</h3><p><a href="mailto:contacto@imoto.cl">contacto@imoto.cl</a></p><p>WhatsApp <a href="https://wa.me/56966893098" rel="noopener">+56 9 6689 3098</a></p><p>Teléfono <a href="tel:+disabled">+56 2 2916 7889</a></p></article>
-<article class="ccard"><h3>Postventa</h3><p><a href="mailto:solicitudpostventa@imoto.cl">solicitudpostventa@imoto.cl</a></p></article>
-<article class="ccard"><h3>Casa matriz</h3><p>Argomedo 363, Santiago</p><p><a href="mailto:ventasargomedo363@imoto.cl">ventasargomedo363@imoto.cl</a></p><p>+562 2916 7824 / +569 6689 3025</p></article>
-<article class="ccard"><h3>Sucursal Carmen</h3><p>Carmen 754, Santiago</p><p><a href="mailto:ventascarmen754@imoto.cl">ventascarmen754@imoto.cl</a></p><p>+562 2916 7894 / +569 6689 3121</p></article>
-<article class="ccard"><h3>Sucursal Lira</h3><p>Lira 669, Santiago</p><p><a href="mailto:motocicletaslira1@imoto.cl">motocicletaslira1@imoto.cl</a><br><a href="mailto:richard.meneses@imoto.cl">richard.meneses@imoto.cl</a></p><p>+562 2916 7931 / +569 6907 0930</p></article>
+<article class="ccard"><h3>{ic("wrench","ic--h")}Venta de repuestos</h3><p><a href="mailto:contacto@imoto.cl">contacto@imoto.cl</a></p><p>WhatsApp <a href="https://wa.me/56966893098" rel="noopener">+56 9 6689 3098</a></p><p>Teléfono <a href="tel:+disabled">+56 2 2916 7889</a></p></article>
+<article class="ccard"><h3>{ic("shield","ic--h")}Postventa</h3><p><a href="mailto:solicitudpostventa@imoto.cl">solicitudpostventa@imoto.cl</a></p></article>
+<article class="ccard"><h3>{ic("pin","ic--h")}Casa matriz</h3><p>Argomedo 363, Santiago</p><p><a href="mailto:ventasargomedo363@imoto.cl">ventasargomedo363@imoto.cl</a></p><p>+562 2916 7824 / +569 6689 3025</p></article>
+<article class="ccard"><h3>{ic("pin","ic--h")}Sucursal Carmen</h3><p>Carmen 754, Santiago</p><p><a href="mailto:ventascarmen754@imoto.cl">ventascarmen754@imoto.cl</a></p><p>+562 2916 7894 / +569 6689 3121</p></article>
+<article class="ccard"><h3>{ic("pin","ic--h")}Sucursal Lira</h3><p>Lira 669, Santiago</p><p><a href="mailto:motocicletaslira1@imoto.cl">motocicletaslira1@imoto.cl</a><br><a href="mailto:richard.meneses@imoto.cl">richard.meneses@imoto.cl</a></p><p>+562 2916 7931 / +569 6907 0930</p></article>
 </div></section>'''
     body=body.replace('href="tel:+disabled"','href="tel:+56229167889"')
     w('contacto/index.html',head('Contacto · Zontes Chile','Contacto de Importadora Imoto: ventas, repuestos y postventa Zontes en Chile.')+header('/contacto/')+body+quote_section(None,None).replace('Cotiza tu Zontes','Escríbenos')+footer())
