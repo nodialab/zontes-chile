@@ -46,13 +46,21 @@ if(st&&window.MODEL){
 const hs=$('#home-stage');
 if(hs&&window.HOME){
  const imgs=$$('.stage__img',hs),buf=Buffer(imgs[0],imgs[1]),hero=$('#hero'),cap=$('#home-cap');
- const show=b=>{const d=window.HOME[b.dataset.home],p=d.pal;
+ let cd=null,slug0=null,frame=0,fl=0,cache={},drag=null;
+ const fu=i=>{const N=cd.frames;return B+'/img/'+slug0+'/360/'+cd.cid+'/'+String(((i%N)+N)%N).padStart(2,'0')+'.webp'};
+ const pre=()=>{if(!cd.frames||cache[slug0])return;cache[slug0]=[...Array(cd.frames)].map((_,i)=>{const im=new Image();im.src=fu(i);return im})};
+ const show=b=>{const d=window.HOME[b.dataset.home],p=d.pal;cd=d;slug0=b.dataset.home;frame=fl=d.start||0;drag=null;
   $$('[data-home]').forEach(x=>x.setAttribute('aria-pressed',x===b));
   buf.set(B+d.img,'Zontes '+d.name);
   for(const[k,v]of Object.entries({panel:p.panel,ink:p.ink,acc:p.acc,ill1:p.ill1,ill2:p.ill2,ill3:p.ill3}))hero.style.setProperty('--'+k,v);
-  cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="${B}/modelos/${b.dataset.home}/">ver modelo</a>${d.v360?` <span class="badge360 badge360--in">360° · arrastra para girar en la ficha</span>`:''}`};
+  cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="${B}/modelos/${b.dataset.home}/">ver modelo</a>${d.v360?` <span class="badge360 badge360--in">360° · arrastra la moto para girar</span>`:''}`};
+ hs.addEventListener('pointerdown',e=>{if(!cd||!cd.frames)return;drag={x:e.clientX,f:fl};stop();hs.setPointerCapture(e.pointerId);pre()});
+ hs.addEventListener('pointermove',e=>{if(!drag)return;fl=drag.f-(e.clientX-drag.x)/hs.clientWidth*cd.frames*1.1;const i=Math.round(fl);if(i!==frame){frame=i;buf.raw(fu(i))}});
+ const dend=()=>{drag=null};hs.addEventListener('pointerup',dend);hs.addEventListener('pointercancel',dend);hs.addEventListener('dragstart',e=>e.preventDefault());
+ hs.addEventListener('pointerenter',()=>{if(cd&&cd.frames)pre()});
  const chips=$$('[data-home]');let auto=null,idx=Math.max(0,chips.findIndex(x=>x.getAttribute('aria-pressed')==='true'));
  const stop=()=>{if(auto){clearInterval(auto);auto=null}};
+ cd=window.HOME[chips[idx].dataset.home];slug0=chips[idx].dataset.home;frame=fl=cd.start||0;
  chips.forEach((b,i)=>b.addEventListener('click',()=>{stop();idx=i;show(b)}));
  if(!rm){const go=()=>{idx=(idx+1)%chips.length;show(chips[idx])};
   let hold=false;const zone=hs.closest('.hero__moto');
