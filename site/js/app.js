@@ -50,7 +50,7 @@ if(hs&&window.HOME){
   $$('[data-home]').forEach(x=>x.setAttribute('aria-pressed',x===b));
   buf.set(B+d.img,'Zontes '+d.name);
   for(const[k,v]of Object.entries({panel:p.panel,ink:p.ink,acc:p.acc,ill1:p.ill1,ill2:p.ill2,ill3:p.ill3}))hero.style.setProperty('--'+k,v);
-  cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="${B}/modelos/${b.dataset.home}/">ver modelo</a>`};
+  cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="${B}/modelos/${b.dataset.home}/">ver modelo</a>${d.v360?` <span class="badge360 badge360--in">360° · arrastra para girar en la ficha</span>`:''}`};
  const chips=$$('[data-home]');let auto=null,idx=Math.max(0,chips.findIndex(x=>x.getAttribute('aria-pressed')==='true'));
  const stop=()=>{if(auto){clearInterval(auto);auto=null}};
  chips.forEach((b,i)=>b.addEventListener('click',()=>{stop();idx=i;show(b)}));

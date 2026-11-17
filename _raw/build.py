@@ -103,7 +103,7 @@ def price_html(m):
 
 def card(m):
     return f'''<article class="mcard" style="--acc:{m["pal"]["acc"]};--panel:{m["pal"]["panel"]}">
-<a class="mcard__img" href="/modelos/{m["slug"]}/" aria-label="Ver {m["name"]}"><img src="/img/{m["slug"]}/cut.png" alt="{m["name"]}" loading="lazy" width="900" height="500"></a>
+<a class="mcard__img" href="/modelos/{m["slug"]}/" aria-label="Ver {m["name"]}"><img src="/img/{m["slug"]}/cut.png" alt="{m["name"]}" loading="lazy" width="900" height="500">{'<span class="badge360">360° · arrastra para girar</span>' if MEDIA[m["slug"]].get("frames") else ''}</a>
 <div class="mcard__b"><span class="chip">{m["tag"]}</span><h3><a href="/modelos/{m["slug"]}/">{m["name"]}</a></h3>
 <p>{E(" · ".join(x for x in (m["motor"][1],m["motor"][3]) if x) or m["cat"])}</p><div class="mcard__p">{price_html(m)}</div>
 <div class="mcard__a"><a class="btn btn--line" href="/modelos/{m["slug"]}/">Ver modelo</a><a class="btn btn--acc" data-cotizar="{m["slug"]}" href="/modelos/{m["slug"]}/?cotizar=1#cotizar">Cotizar {m["name"]}</a></div></div></article>'''
@@ -208,7 +208,7 @@ def models_index():
 def home():
     feat=[m['slug'] for m in M]
     chips=''.join(f'<button type="button" class="chip chip--btn" data-home="{s}" aria-pressed="{"true" if s=="zt703-rr" else "false"}">{BYSLUG[s]["name"]}</button>' for i,s in enumerate(feat))
-    hdata=json.dumps({s:{'name':BYSLUG[s]['name'],'tag':BYSLUG[s]['tag'],'lead':BYSLUG[s]['lead'],'img':f'/img/{s}/stage/{MEDIA[s]["colors"][0]["id"]}.webp','pal':BYSLUG[s]['pal'],'kind':BYSLUG[s]['kind']} for s in feat},ensure_ascii=False)
+    hdata=json.dumps({s:{'name':BYSLUG[s]['name'],'tag':BYSLUG[s]['tag'],'lead':BYSLUG[s]['lead'],'img':f'/img/{s}/stage/{MEDIA[s]["colors"][0]["id"]}.webp','pal':BYSLUG[s]['pal'],'kind':BYSLUG[s]['kind'],'v360':bool(MEDIA[s].get('frames'))} for s in feat},ensure_ascii=False)
     p=BYSLUG['zt703-rr']['pal']
     cards=''.join(card(m) for m in M)
     hero=f'''<section class="hero hero--home" id="hero" style="--panel:{p["panel"]};--ink:{p["ink"]};--acc:{p["acc"]};--ill1:{p["ill1"]};--ill2:{p["ill2"]};--ill3:{p["ill3"]}">{ill("sport")}<div class="wrap hero__grid">
@@ -217,7 +217,7 @@ def home():
 <div class="hero__cta"><a class="btn btn--ink" href="/modelos/">Ver modelos</a><a class="btn btn--line-ink" href="/distribuidores/">Encuentra un distribuidor</a></div></div>
 <div class="hero__moto"><div class="stage stage--home" id="home-stage"><img class="stage__img stage__img--a is-on" src="/img/zt703-rr/stage/red.webp" alt="Zontes ZT703-RR" width="1280" height="720" fetchpriority="high" draggable="false"><img class="stage__img stage__img--b" alt="" width="1280" height="720" draggable="false"><div class="stage__shadow"></div></div>
 <div class="swatches swatches--chips" role="group" aria-label="Modelo destacado">{chips}</div>
-<p class="stage__cap" id="home-cap"><strong>ZT703-RR</strong> · Súper Sport — <a href="/modelos/zt703-rr/">ver modelo</a></p></div></div></section>'''
+<p class="stage__cap" id="home-cap"><strong>ZT703-RR</strong> · Súper Sport — <a href="/modelos/zt703-rr/">ver modelo</a> <span class="badge360 badge360--in">360° · arrastra para girar en la ficha</span></p></div></div></section>'''
     cats=[('Maxiscooter y ADV','zt368t-e','Dos scooters de 367,6 cc con 40 Nm de torque.'),('Adventure','zt703-f','Del 350 cc al 699 cc de tres cilindros.'),('Scrambler y 198 cc','zt350-gk','ZT350-GK, ZT200-U1 y ZT200-G1.'),('Súper Sport','zt703-rr','ZT703-RR con Quickshift y doble disco.')]
     sec_models=f'''<section class="sec"><div class="wrap"><div class="sec__h"><h2>Elige tu Zontes</h2><a class="link" href="/modelos/">Ver todos {ARROW}</a></div><div class="mgrid">{cards}</div></div></section>'''
     def foto(slug,k=0):
