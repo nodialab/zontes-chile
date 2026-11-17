@@ -1,4 +1,4 @@
-:root{color-scheme:light;--bg:#f4f3ee;--bg2:#fff;--bg3:#ebe9e2;--line:#d9d6cc;--tx:#14161a;--mut:#555b65;--yel:#ffd500;--yt:#8a6500;--r:14px;--wrap:3000px;--gut:clamp(16px,3.6vw,64px);
+:root{color-scheme:light;--bg:#f4f3ee;--bg2:#fff;--bg3:#ebe9e2;--line:#d9d6cc;--tx:#14161a;--mut:#555b65;--yel:#c4c8ce;--yt:#5a606a;--r:14px;--wrap:3000px;--gut:clamp(16px,3.6vw,64px);
 --panel:#1a1d23;--ink:#fff;--acc:var(--yel);--ill1:#0b0c0e;--ill2:#16191f;--ill3:#2a2f38;
 --fd:"Barlow Condensed","Arial Narrow",Impact,sans-serif;--fs:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
@@ -106,7 +106,7 @@ sup a{color:var(--acc);text-decoration:none;font-weight:700}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
 /* header + footer grafito (logo oficial claro) */
-.hdr,.ftr{--bg:#15181d;--bg2:#15181d;--bg3:#1f232a;--line:#2c3139;--tx:#f2f3f5;--mut:#a3a9b3;--yt:#ffd500;color:var(--tx)}
+.hdr,.ftr{--bg:#15181d;--bg2:#15181d;--bg3:#1f232a;--line:#2c3139;--tx:#f2f3f5;--mut:#a3a9b3;--yt:#c4c8ce;color:var(--tx)}
 .hdr{border-bottom-color:#2c3139}.ftr{background:#15181d;border-top:0}
 .logo img{display:block;height:26px;width:auto}.logo{align-items:center}
 @media(max-width:380px){.logo img{height:22px}.logo em{font-size:.75rem}}
