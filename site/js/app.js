@@ -149,3 +149,6 @@ if(list&&window.DEAL){const D=window.DEAL,rg=$('#f-region'),q=$('#f-q'),cnt=$('#
  if(location.hash==='#servicio')$('#t-svc').click();else draw();
 }
 })();
+
+/* ---- videos: carga el reproductor solo al pulsar ---- */
+document.querySelectorAll('.vid__btn').forEach(b=>b.addEventListener('click',()=>{const f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.yt+'?autoplay=1&rel=0'+(+b.dataset.t?'&start='+b.dataset.t:'');f.title=b.getAttribute('aria-label').replace('Reproducir video: ','');f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.className='vid__fr';b.replaceWith(f)}));
