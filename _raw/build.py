@@ -90,7 +90,7 @@ def footer():
 <div><h3>Modelos</h3><ul class="ftr__models">{links}</ul></div>
 <div><h3>Sitio</h3><ul><li><a href="/distribuidores/">Distribuidores</a></li><li><a href="/mantenciones/">Mantenciones y garantía</a></li><li><a href="/nosotros/">Nosotros</a></li><li><a href="/contacto/">Contacto</a></li><li><a href="/derechos/">Derechos del consumidor</a></li></ul></div>
 <div><h3>Contacto</h3><ul class="ftr__ct">{ci("mail",'<a href="mailto:contacto@imoto.cl">contacto@imoto.cl</a>')}{ci("phone","Venta de repuestos: +56 2 2916 7889")}{ci("chat",'<a href="https://wa.me/56966893098" rel="noopener">WhatsApp +56 9 6689 3098</a>')}{ci("pin","Casa matriz: Argomedo 363, Santiago")}</ul></div>
-</div><div class="wrap ftr__bar"><span>© Zontes Chile · Sitio de demostración basado en zontes.cl y zontes.com</span><a href="#top">Volver arriba ↑</a></div></footer>
+</div><div class="wrap ftr__bar"><span>© Zontes Chile · Sitio desarrollado por <a href="https://nodialab.app" rel="noopener">Nodialab.app</a></span><a href="#top">Volver arriba ↑</a></div></footer>
 <script src="/js/app.js" defer></script></body></html>'''
 
 def price_html(m):
@@ -212,7 +212,7 @@ def home():
     p=BYSLUG['zt703-rr']['pal']
     cards=''.join(card(m) for m in M)
     hero=f'''<section class="hero hero--home" id="hero" style="--panel:{p["panel"]};--ink:{p["ink"]};--acc:{p["acc"]};--ill1:{p["ill1"]};--ill2:{p["ill2"]};--ill3:{p["ill3"]}">{ill("sport")}<div class="wrap hero__grid">
-<div class="hero__txt"><span class="chip chip--ink">Motocicletas en Chile</span><h1>Zontes. Diseño y tecnología para cada ruta.</h1>
+<div class="hero__txt"><h1>Zontes. Diseño y tecnología para cada ruta.</h1>
 <p class="hero__lead">Scooters, adventure, scrambler y súper sport con motores de 198 a 699 cc. Elige tu modelo, mira sus fichas y cotiza con un distribuidor autorizado.</p>
 <div class="hero__cta"><a class="btn btn--ink" href="/modelos/">Ver modelos</a><a class="btn btn--line-ink" href="/distribuidores/">Encuentra un distribuidor</a></div></div>
 <div class="hero__moto"><div class="stage stage--home" id="home-stage"><img class="stage__img stage__img--a is-on" src="/img/zt703-rr/stage/red.webp" alt="Zontes ZT703-RR" width="1280" height="720" fetchpriority="high" draggable="false"><img class="stage__img stage__img--b" alt="" width="1280" height="720" draggable="false"><div class="stage__shadow"></div></div>

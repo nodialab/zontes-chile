@@ -10,8 +10,8 @@ C360={ # slug -> (gl360 dir, {colorid:(name,hex)})
  'zt368t-e':('368e',{'pianoblack':('Negro piano','#17181b'),'mechgrey':('Gris mecánico','#9aa0a6')}),
 }
 STATIC={ # slug -> {colorid:(name,hex,path)}
- 'zt350-t2':{'orange':('Naranja','#e8601c','_raw/cut/_src__cl__zt350-t2__ZONTES-T350X-NARANJA-4.png'),'black':('Negro','#17181b','_raw/cut/_src__cl__zt350-t2__ZONTES-T350X-Negro-4.png')},
  'zt368t-g':{'black':('Negro','#17181b','_src/gl/368g/Car202509081712555025.png'),'mechgrey':('Gris mecánico','#aeb4ba','_src/gl/368g/Car202509081715245562.png'),'green':('Verde','#4c5a45','_src/gl/368g/Car202509081717134969.png'),'brown':('Café mate','#9b8a73','_src/gl/368g/Car202509081711167894.png')},
+ 'zt350-t2':{'orange':('Naranja','#e8601c','_raw/cut/_src__cl__zt350-t2__ZONTES-T350X-NARANJA-4.png'),'black':('Negro','#17181b','_raw/cut/_src__cl__zt350-t2__ZONTES-T350X-Negro-4.png')},
  'zt200-u1':{'bluorange':('Azul / naranja','#1f5f86','_raw/cut/_src__cl__zt200-u1__ZT200-U1_blue_Orange7.png'),'silver':('Plata','#c5c9cc','_raw/cut/_src__cl__zt200-u1__ZT200-U1_silver5.png')},
  'zt350-gk':{'silver':('Plata / naranja','#c9ccd1','_raw/cut/_src__cl__zt350-gk__4B0A4849.png'),'blue':('Negro / azul','#1c3f8f','_raw/cut/_src__cl__zt350-gk__4B0A6330.png')},
  'zt350t-e':{'white':('Blanco','#e9eaec','_raw/cut/_clean__zt350t-e.png')},
