@@ -1,0 +1,185 @@
+# Datos 100% tomados de zontes.cl (posts/páginas), fichas PDF oficiales y zontes.com (marcados con nota).
+MOTOR = ['Tipo de motor','Cilindrada','Relación de compresión','Potencia máxima','Torque máximo','Tipo de embrague','Sistema de refrigeración','Sistema de alimentación','Sistema de arranque','Sistema de transmisión','Transmisión final']
+CHASIS = ['Suspensión delantera','Suspensión trasera','Freno delantero','Freno trasero','Neumático delantero','Neumático trasero']
+DIMS = ['Largo / ancho / alto (mm)','Altura del asiento','Distancia entre ejes','Peso en orden de marcha','Depósito de combustible']
+GLOBAL_NOTE = 'Dato tomado del sitio global zontes.com (ficha del modelo); no figura en zontes.cl.'
+
+M = []
+def add(**k): M.append(k)
+
+add(slug='zt703-rr', name='ZT703-RR', cat='Súper Sport', kind='sport', tag='Súper Sport',
+ lead='Tricilíndrica de 699 cc y 93,7 HP con Quickshift, doble disco de freno y pantalla TFT de 6,75".',
+ price='$7.490.000', price_tag='Oferta', pdf='FICHA_ZT703RR.pdf',
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Tricilíndrico, DOHC, 12 válvulas','699 cc','13:01','93,7 HP a 11.200 rpm','74,5 Nm a 8.500 rpm','Multidisco antirrebote en baño de aceite','Líquido / aceite','Inyección electrónica BOSCH','Eléctrico','6 velocidades con Quickshift ascendente','Cadena'],
+ chasis=['Horquilla invertida MARZOCCHI regulable en precarga y rebote','Monoamortiguador MARZOCCHI regulable en precarga y rebote','Caliper BREMBO con doble disco semiflotante de 300 mm','Caliper J.JUAN con disco de 300 mm','MICHELIN POWER 6 120/70-17','MICHELIN POWER 6 180/55-17'],
+ dims=['2065 / 745 / 1145','795 mm','1450 mm','196 kg','16 litros'],
+ extra=[('Altura libre al suelo','145 mm')],
+ feats=['Motor tricilíndrico de 699 cc y 93,7 HP','Pantalla TFT de 6,75 pulgadas','Basculante forjado en aluminio','Admisión de aire «RAM AIR»','Doble disco de frenos J.Juan','Conexión Bluetooth y Screen Mirroring','2 modos de conducción','Llave digital inteligente','Seis velocidades con Quickshift','Control de tracción y ABS desconectables','Calienta puños','Indicadores de presión y temperatura de neumáticos','Deflectores integrados','Comandos con interruptores rotativos','Chasis de doble viga y subchasis desmontable','Incluye mantenedor de batería externo'],
+ media_note='Visor 360° y fotografías adicionales: zontes.com (sitio global). Colores del visor según el sitio global; consulta disponibilidad en Chile con tu distribuidor.')
+
+add(slug='zt703-f', name='ZT703-F', cat='Super Adventure', kind='adv', tag='Super Adventure',
+ lead='Adventure tricilíndrica de 699 cc y 93,7 HP con suspensiones Marzocchi de 180 mm de recorrido y parabrisas eléctrico.',
+ price=None, price_tag=None, pdf='FICHA_ZT703-F.pdf',
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Tricilíndrico, DOHC, 12 válvulas','699 cc','13:01','93,7 HP a 10.000 rpm','76 Nm a 7.500 rpm','Multidisco antirrebote en baño de aceite','Líquido / aceite','Inyección electrónica BOSCH','Eléctrico','6 velocidades con Quickshift ascendente','Cadena'],
+ chasis=['Horquilla invertida Marzocchi de 43 mm, completamente regulable, 180 mm de recorrido','Monoamortiguador Marzocchi regulable con depósito separado, 180 mm de recorrido','Caliper J.JUAN con doble disco semiflotante de 310 mm','Caliper J.JUAN con disco de 265 mm','MICHELIN ANAKEE ADVENTURE 90/90-21','MICHELIN ANAKEE ADVENTURE 150/70-18'],
+ dims=['2305 / 960 / 1525','845 mm','1565 mm','236 kg','22 litros'],
+ extra=[('Altura libre al suelo','205 mm')],
+ feats=['Motor de 3 cilindros, 699 cc y 93,7 HP','Pantalla TFT de 6,75" ajustable en inclinación','Conexión Bluetooth y Screen Mirroring','Suspensiones ajustables en compresión y rebote','Parabrisas regulable eléctricamente','Iluminación OSRAM full LED','Focos neblineros de serie','Indicadores de presión y temperatura de neumáticos','Cubre puños con luz señalizadora, cubre cárter y caballete central','Chasis de doble viga y subchasis desmontable','Incluye mantenedor de batería externo','Quickshifter','Calienta puños','Cámara frontal y trasera','2 modos de conducción','Llave digital inteligente','Cargador USB y USB-C','Frenos con ABS desconectables','Sistema de control de tracción'],
+ media_note='Visor 360° y fotografías: zontes.com (sitio global). Colores según el sitio global; consulta disponibilidad en Chile.')
+
+add(slug='zt368t-e', name='ZT368T-E', cat='Maxiscooter', kind='scooter', tag='Maxiscooter',
+ lead='Motor monocilíndrico de 367,6 cc y 40 Nm, cámaras HD delantera y trasera, tablero TFT de 6,75" y espacio para dos cascos integrales.',
+ price='$5.290.000', price_tag=None, pdf='FICHA_ZT368T-E.pdf',
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Monocilíndrico, SOHC, 4 válvulas','367,6 cc','11,8:1','38,7 HP a 7.500 rpm','40 Nm a 6.000 rpm','Centrífugo automático','Líquida','Inyección electrónica BOSCH','Eléctrico','Variador automático CVT','Correa'],
+ chasis=['Horquilla invertida de 37 mm regulable con 154 mm de recorrido','Doble amortiguador regulable con 101 mm de recorrido','Disco hidráulico Ø 276 mm, ventilado, con cáliper radial J.Juan de 4 pistones','Disco hidráulico Ø 240 mm con cáliper J.Juan de 1 pistón y ABS de doble canal','120/70-15 Tubeless','140/70-14 Tubeless'],
+ dims=['2.200 / 815 / 1.395','770 mm','1.570 mm','186 kg','17 litros'],
+ extra=[('Altura libre al suelo','150 mm')],
+ feats=['Nuevo motor monocilíndrico de 367,6 cc y 40 Nm (+22% de torque)','Ride by Wire (acelerador electrónico)','Control crucero','Cámaras HD delantera y trasera con 128 GB de memoria interna','Nuevo tablero TFT de 6,75" con interfaz mejorada y screen mirroring','Nuevos comandos de manillar con joystick','Nueva suspensión MZKS con más recorrido','Nuevo ajuste de manillar con dos posiciones','Escape de nuevo diseño, más liviano (aprox. -2 kg)','Asiento y puños calefaccionados','Cubre manos de serie','Sistema de control de tracción (TCS)','Sistema ABS de doble canal','Smart Key 3.0 con apertura electrónica de asiento y depósito','Parabrisas eléctrico regulable','Monitoreo de presión de neumáticos (TPMS)','Guanteras con cierre y conector USB','Puertos USB-A y USB-C','Compartimiento bajo el asiento para dos cascos integrales','Freno de estacionamiento','Caballete central y lateral','Iluminación Full LED Osram','Grabación de rutas y encendido remoto','Manillar forjado en aluminio'],
+ media_note='Visor 360° y fotografías de detalle: zontes.com (sitio global). Colores según el sitio global; consulta disponibilidad en Chile.')
+
+add(slug='zt368t-g', name='ZT368T-G', cat='Scooter Enduro / ADV', kind='adv2', tag='Scooter Enduro · ADV',
+ lead='Scooter ADV de 367,6 cc con modos ECO y SPORT, defensas y cubre motor de serie, llantas tubulares y pantalla TFT de 8".',
+ price=None, price_tag='Próximamente', pdf='FICHA_ZT368T-G.pdf',
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Monocilíndrico, SOHC, 4 válvulas','367,6 cc','11,8:1','38,2 HP a 7.500 rpm','40 Nm a 6.000 rpm','Centrífugo','Líquido','Inyección electrónica BOSCH','Eléctrico','Variador CVT','Correa'],
+ chasis=['Horquilla invertida regulable con 154 mm de recorrido','Doble, con depósito de gas y 114 mm de recorrido','Caliper J.JUAN con disco de 300 mm','Caliper J.JUAN con disco de 240 mm','CST 110/70-17','CST 150/70-14'],
+ dims=['2230 / 925 / 1370','795 mm','1560 mm','203 kg','17,5 litros'],
+ extra=[('Altura libre al suelo','180 mm')],
+ feats=['Dos modos de conducción: ECO y SPORT','Focos neblineros de serie','Apertura electrónica de asiento y estanque','Defensas y cubre motor inferior de serie','Mandos retroiluminados y protectores de manos','Freno de estacionamiento y caballete central','Llantas tubulares con neumáticos mixtos','Indicadores de presión y temperatura de neumáticos','Asiento de piloto con apoyo lumbar','Manillar regulable tipo off road','Incluye mantenedor de batería externo','Pantalla TFT de 8"','Llave digital inteligente','Cargador USB y USB-C','Control de tracción y ABS desconectables','Calienta puños','Conexión Bluetooth y Screen Mirroring','Cámara frontal y trasera','Espacio para dos cascos integrales','Parabrisas ajustable en 5 posiciones'],
+ media_note='Colores y renders: zontes.com (versión de asiento alto, 795 mm). El visor 360° del sitio global existe solo para la versión de asiento bajo, por eso no se incluye aquí.')
+
+add(slug='zt350-gk', name='ZT350-GK', cat='Scrambler', kind='street', tag='Scrambler',
+ lead='Monocilíndrica de 348 cc y 38,9 HP con ABS Bosch 9.1, suspensión invertida de 43 mm y llantas de rayos.',
+ price=None, price_tag='Sin stock', pdf=None,
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['1 cilindro, DOHC, 4 válvulas, 4 tiempos','348 cc','12,3:1','38,9 HP a 9500 rpm','32,8 Nm a 7500 rpm','Multidisco antirrebote en baño de aceite','Líquido / aceite','Inyección electrónica BOSCH MSE 6.0','Eléctrico','6 velocidades','Cadena sellada'],
+ chasis=['Telescópica invertida con barras de 43 mm','Monoshock','Disco hidráulico Ø 320 mm, 4 pistones','Disco hidráulico Ø 265 mm, 1 pistón','120/70-R17 tubular de rayos perimetrales','160/60-R17 tubular de rayos perimetrales'],
+ dims=['2070 / 845 / 1120',None,'1.380 mm','171 kg','17 litros'],
+ extra=[('Sistema ABS','Bosch 9.1, independiente delantero / trasero')],
+ feats=[], media_note='Fotografías: zontes.cl.')
+
+add(slug='zt350-t2', name='ZT350-T2', cat='Adventure', kind='adv3', tag='Adventure',
+ lead='Eleva a la máxima potencia este versátil vehículo para emplear a diario tanto en ciudad como en carretera abierta.',
+ price='$4.390.000', price_tag='Oferta', price_old='$4.590.000', pdf='FICHA_ZT350-T2.pdf',
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Monocilíndrico, DOHC, 4 válvulas, 4 tiempos','348 cc','12,3:1','38,9 HP a 9500 rpm','32,8 Nm a 7500 rpm','Multidisco antirrebote en baño de aceite','Líquido / aceite','Inyección electrónica BOSCH','Eléctrico','6 velocidades','Cadena'],
+ chasis=['Telescópica invertida','Monoshock','Disco hidráulico Ø 320 mm con ABS Bosch','Disco hidráulico Ø 265 mm con ABS Bosch','110/80-19 tubular','160/60-17 tubular'],
+ dims=['2135 / 850 / 1360',None,'1380 mm','196 kg','19 litros'],
+ extra=[],
+ feats=['Nuevo motor de 348 cc y 38,9 HP','Filtro de aire de mayor flujo','Arranque sin llave versión 2.5','Caliper de freno delantero J.JUAN','Nuevos discos con mayor diámetro','Bloqueo electrónico de dirección','Apertura electrónica del depósito de combustible','Apertura electrónica del asiento','Parabrisas electrónico regulable en altura','Sensor de presión y temperatura de neumáticos','Sistema ABS e inyección electrónica BOSCH','Tablero TFT LCD full color y manillas regulables','Iluminación full LED','Embrague antirrebote','2 modos de conducción ECO / SPORT','Doble puerto USB de carga rápida','Defensas de motor y cubremanos de fábrica'],
+ media_note='Fotografías: zontes.cl. La distancia entre ejes es 1380 mm según la ficha PDF (la página web indica 1390 mm).')
+
+add(slug='zt200-u1', name='ZT200-U1', cat='Monocilíndrica 198 cc', kind='trail', tag='198 cc',
+ lead='Monocilíndrica de 198 cc y 21,59 HP, 6 velocidades, suspensión delantera invertida y frenos de disco hidráulicos.',
+ price='$2.790.000', price_tag='Oferta', pdf=None,
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Monocilíndrico, SOHC, 4 válvulas, 4 tiempos','198 cc','12,5:1','21,59 HP a 9000 rpm','19,0 Nm a 7000 rpm','Multidisco en baño de aceite','Líquido','Inyección electrónica BOSCH','Eléctrico','6 velocidades','Cadena'],
+ chasis=['Horquilla telescópica invertida','Monoshock','Disco hidráulico Ø 300 mm','Disco hidráulico Ø 230 mm','110/70-17','130/70-17'],
+ dims=['2005 / 865 / 1135',None,'1360 mm','152 kg','12,5 litros'],
+ extra=[], feats=[], media_note='Fotografías: zontes.cl.')
+
+add(slug='zt200-g1', name='ZT200-G1', cat='Monocilíndrica 198 cc', kind='street2', tag='198 cc',
+ lead='Monocilíndrica de 198 cc y 21,59 HP, 6 velocidades, suspensión delantera invertida y neumáticos tubulares.',
+ price='$2.790.000', price_tag=None, pdf=None,
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Monocilíndrico, SOHC, 4 válvulas, 4 tiempos','198 cc','12,5:1','21,59 HP a 9000 rpm','19,0 Nm a 7000 rpm','Multidisco en baño de aceite','Líquido','Inyección electrónica BOSCH','Eléctrico','6 velocidades','Cadena'],
+ chasis=['Horquilla telescópica invertida','Monoshock','Disco hidráulico Ø 300 mm','Disco hidráulico Ø 230 mm','110/70-17 tubular','130/70-17 tubular'],
+ dims=['1970 / 870 / 1105',None,'1360 mm','152 kg','20 litros'],
+ extra=[], feats=[], media_note='Fotografías: zontes.cl.')
+
+DEALERS = [
+('Antofagasta','Antofagasta','MOTORCITY SPA','Capitán Carlos Condell 1916','','9 9419 7666','contacto@motorcity.cl'),
+('Antofagasta','Calama','PROMOTOS CASTILLO','México 2636','','9 7497 2936','secretaria@promotoscastillo.cl'),
+('Atacama','Copiapó','CSI MOTORSPORT','','(56) 227255571','9 3915 6709','copiapo@csimotorsports.cl'),
+('Coquimbo','La Serena','TONINO MOTOS','Balmaceda 1461','(51) 2213268','9 8316 6972','info@toninomotos.cl'),
+('Coquimbo','Coquimbo','COMERCIAL OCARANZA','Melgarejo 860','(51) 2326027','9 3111 3098','mauricioocaranza@comercialocaranza.cl'),
+('Coquimbo','Ovalle','MOTO LAGUNAS','Av. David Perry 397','(53) 2631735','9 9325 7503','contacto@motolagunas.cl'),
+('Valparaíso','Quilpué','EXTREMOTO','Freire 634, El Belloto','(32) 2940115','9 9000 9920','lalomotos1@hotmail.com'),
+('Valparaíso','San Felipe','GRUNEFELD MOTOS','Chacabuco 285','(34) 2519567','','max.grunefeld@gmail.com'),
+('Valparaíso','Quillota','MACH MOTOS','Freire 928','(32) 3148165','9 6878 5668','ppillado@mach.cl'),
+('Valparaíso','Los Andes','V-MOTOS LTDA','Pascual Baburizza 20A, Calle Larga','','9 5006 5362','ventas@vmotos.cl'),
+('Valparaíso','Viña del Mar','MACH MOTOS','4 Oriente 1264','32148165','9 3284 4661','mgranada@mach.cl'),
+('Metropolitana','Melipilla','REPUESTOS AREVALO','Avda. Vic. Mackenna 417','(562) 28930726','9 9279 1212','arevalorepuestos@yahoo.es'),
+('Metropolitana','San Bernardo','MAOS RACING','Mall Plaza Sur, AUTOPLAZA','','9 6374 4017','ventas@maos.cl'),
+('Metropolitana','Santiago','BIKESTORE','Lira 651','(562) 29167953','9 9078 0440','ventas@bikestore.cl'),
+('Metropolitana','Quilicura','MOTOS S.O.S LTDA','Av. General San Martín 561','','9 8817 5039','manzotm@gmail.com'),
+('Metropolitana','Huechuraba','MAOS RACING','Mall Plaza Norte, AUTOPLAZA, Av. Américo Vespucio 1737','','9 6374 4017','ventas@maos.cl'),
+('Metropolitana','Las Condes','RINO MOTOS','Av. Las Condes 8482','(562) 2891 2127','9 9326 6436','leandro.gobantes@rinomotos.cl'),
+('Metropolitana','Colina','SPEED SHOP CHICUREO','El Alba III Parcela 1, Sector Chicureo','','9 7957 5906','jescudero@sshopchicureo.cl'),
+('Metropolitana','Vitacura','VM MOTOS','Vitacura 9360','(562) 2201 6280','9 4552 0156','vmmotos@gmail.com'),
+('Metropolitana','Providencia','MEGAMOTOS','Av. Francisco Bilbao 1102','','9 3916 6627','ventas@megamotos.cl'),
+('Metropolitana','San Miguel','MOTOMANIA','Gran Av. José Miguel Carrera 2550','(562) 2891 1719','9 7997 2963','motomania@motomania.cl'),
+('Metropolitana','Padre Hurtado','GOBIKES','Camino San Alberto Hurtado 1630, Local 12','','9 3372 9533 / 9 6918 9128','ventas@gobikes.cl'),
+('Metropolitana','Maipú','123 MOTOS','Av. Pajaritos 4162','','9 4160 6165','ventas@123motos.cl'),
+('Metropolitana','La Florida','RED MOTOS','Vicuña Mackenna 8264','(562) 3315 4894','9 7459 3616','f.herrera.g18@gmail.com'),
+('O’Higgins','Rancagua','NZ MOTOS','Libertador Bernardo O’Higgins 60','','9 6847 2470','www.nzmotos.cl'),
+('O’Higgins','Pichidegua','WLCAR','Av. Ignacio Carrera Pinto 1743','','9 7971 8223','gerencia@wlcar.cl'),
+('O’Higgins','San Vicente de Tagua Tagua','JUAN PABLO CUMSILLE','Carlos Walker Martínez 380','','9 9547 9957','ventas@autosjpcumsille.cl'),
+('O’Higgins','Santa Cruz','HIPERMOTOS SPA','Ramón Sanfurgo 783','','9 8928 6333','comercializadorarojasehijo@gmail.com'),
+('Maule','Talca','MOTOFIX','18 Oriente 592','(71) 2289961','9 6419 1758','lcaceres@motofix.cl'),
+('Maule','Curicó','CHALECO MOTORSPORT','Av. Alessandri 1133','','9 9276 0393','ventasimoto@chalecomotorsport.cl'),
+('Ñuble','Chillán','MOTOS CHILLÁN','Avenida Argentina 562','(42) 238 4316','+569 33353978 / +569 48634596','contacto@motoschillan.cl'),
+('Biobío','Concepción','MMOTOS','Paicaví 1762','','9 3583 7951','mmotosconcepcion@gmail.com'),
+('Biobío','Concepción','MOTOEMOTION','Maipú 901','(41) 3325817','9 5616 0754','motoemotionstore@gmail.com'),
+('Biobío','Los Ángeles','MOTO STOP','Mendoza 815','(43) 2316987','9 9682 3985','motostopchile@yahoo.es'),
+('Araucanía','Temuco','TERREMOTOPLANET','Caupolicán 441','(45) 221 1980','9 8663 5193','contacto@terremotoplanet.cl'),
+('Los Ríos','Valdivia','CPR MOTOS','Pedro Montt 1780','(63) 2224716','9 9527 5785','cprmotos@hotmail.com'),
+('Los Lagos','Ancud','FRANCISCO PONCE','Eleuterio Ramírez 311','(65) 2624567','9 9715 5856','poncicles28@hotmail.com'),
+('Los Lagos','Castro','MYC','Sotomayor 488','(65) 2638888','9 9644 4975','equipamientomyc@gmail.com'),
+('Los Lagos','Dalcahue','COMERCIAL P y P','Avda. Mocopulli 1630','(65) 2356202','9 6300 2603','alexispujado@gmail.com'),
+('Los Lagos','Dalcahue','SEA Y LAND','Pje. El Estero 60','(65) 2641610','','julian.aguilar.barria@gmail.com'),
+('Los Lagos','Fresia','COMERCIAL ERIO GIACOMOZZI','Manuel Rodríguez 430','(65) 2441322','9 9051 7295','erio.giacomozzi@gmail.com'),
+('Los Lagos','Osorno','MOTOS KUPER','Los Carreras 1291 Loc. 06/07','(64) 2242441','9 6497 4977','jalm1598@yahoo.es'),
+('Los Lagos','Osorno','MOTO STOCK','Errázuriz 1780','(64) 2230472','','motostock_osorno@yahoo.es'),
+('Los Lagos','Puerto Montt','MULTIMOTOS','Avda. Crucero 1890','','9 2243 7770','contacto.multimoto@gmail.com'),
+('Los Lagos','Puerto Montt','SOC. COM. PUERTO MOTO LTDA','Guillermo Gallardo 450','','9 6687 0058','rsolis@puertomoto.cl'),
+('Los Lagos','Puerto Montt','SOCIEDAD MOTOS JV LTDA','Rengifo 970, Puerto Montt','65-2273998','','motosjv@gmail.com'),
+('Aysén','Coyhaique','MOTOS GYV','Camino reserva forestal 1500, Coyhaique','','9 4778 7152','www.motosgyv.cl'),
+('Magallanes','Punta Arenas','AUTOMOTORA GUIC','Angamos 1084','(61) 2714779','','automotoraguic@recasur.cl'),
+]
+REGIONS = ['Antofagasta','Atacama','Coquimbo','Valparaíso','Metropolitana','O’Higgins','Maule','Ñuble','Biobío','Araucanía','Los Ríos','Los Lagos','Aysén','Magallanes']
+
+MANT = [('ZT200 Z2 / U1 / G1',['$97.990','$97.990','$129.990','$108.990','$154.990']),
+('ZT350T2 / R / X / GK',['$101.990','$101.990','$153.990','$123.990','$153.990']),
+('ZT350-M / ZT350-E',['$110.990','$103.990','$167.990','$113.990','$344.990']),
+('ZT368-G',['$103.990','$125.990','$213.990','$126.990','$390.990']),
+('ZT703-F / ZT703RR',['$146.990','$146.990','$239.990','$156.990','$344.990'])]
+
+add(slug='zt200-z2', name='ZT200-Z2', cat='Naked', kind='street2', tag='Naked 198 cc',
+ lead='Naked monocilíndrica de 198 cc y 21,5 HP, 6 velocidades, ABS Bosch en ambas ruedas y horquilla invertida.',
+ price=None, price_tag=None, pdf='FICHA_ZT200-Z2.pdf',
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Monocilíndrico, SOHC, 4 válvulas, 4 tiempos','198 cc','12,5:1','21,5 HP a 9000 rpm','19 Nm a 7000 rpm','Multidisco antirrebote en baño de aceite','Líquido','Inyección electrónica Bosch','Eléctrico','6 velocidades','Cadena'],
+ chasis=['Horquilla telescópica invertida','Monoshock','Disco hidráulico Ø 300 mm con ABS Bosch','Disco hidráulico Ø 230 mm con ABS Bosch','110/70-17','130/70-17'],
+ dims=['2055 / 790 / 1105',None,'1360 mm','152 kg','17 litros'],
+ extra=[],
+ feats=['Inyección electrónica Bosch','Iluminación full LED','Doble puerto USB de carga rápida','Frenos con ABS Bosch','Panel LCD con sensor de presión de neumáticos','Llanta de aleación','Topes de caída','Basculante de aluminio','Llave convencional','Comandos retroiluminados','Embrague antirrebote','Parrilla trasera para instalar topcase'],
+ src_note='zontes.cl lista este modelo en su menú pero su página da error 404 y zontes.com no lo publica con este código. Los datos provienen de la ficha técnica del importador oficial Imoto (imoto.cl), que no es zontes.cl.',
+ media_note='Fotografía: Imoto (imoto.cl), referencial.')
+
+add(slug='zt350t-e', name='ZT350T-E', cat='Scooter', kind='scooter', tag='Scooter 349 cc',
+ lead='Scooter de 349 cc y 36,7 HP con llave inteligente, puños calefactables, control de tracción y ABS Bosch.',
+ price=None, price_tag=None, pdf='FICHA_ZT350T-e.pdf',
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Monocilíndrico, SOHC, 4 válvulas, 4 tiempos','349 cc','11,8:1','36,7 HP a 7500 rpm','38 Nm a 6000 rpm','Centrífugo','Líquido','Inyección electrónica Bosch','Eléctrico','Automática (CVT) con control de tracción (TCS)','Correa'],
+ chasis=['Horquilla telescópica','Doble amortiguador regulable en precarga','Disco hidráulico Ø 268 mm con ABS Bosch','Disco hidráulico Ø 265 mm con ABS Bosch','120/70-15','140/70-14'],
+ dims=['2195 / 795 / 1395',None,'1565 mm','203 kg','16 litros'],
+ extra=[],
+ feats=['Llave inteligente (Keyless)','Puños calefactables de serie','Control de tracción','Bloqueo electrónico de dirección','Apertura electrónica del depósito de combustible','Apertura electrónica del asiento','2 modos de conducción ECO/SPORT','Freno delantero radial J.JUAN con ABS Bosch','Iluminación full LED y tablero TFT LCD a todo color','Doble puerto USB de carga rápida','Sensor de presión y temperatura de neumáticos','Parabrisas regulable en altura','Freno de estacionamiento','Doble guantera','Baúl con capacidad para 2 cascos'],
+ src_note='zontes.cl lista este modelo en su menú pero su página da error 404 y zontes.com no lo publica con este código. Los datos provienen de la ficha técnica del importador oficial Imoto (imoto.cl), que no es zontes.cl.',
+ media_note='Fotografías: zontes.cl. La tabla de la ficha indica motor SOHC y su texto descriptivo menciona culata DOHC; aquí se usa la tabla.')
+
+add(slug='zt350t-m', name='ZT350T-M', cat='Scooter', kind='scooter', tag='Scooter 349 cc',
+ lead='Scooter de 349 cc y 36,2 HP con transmisión automática, ABS Bosch y tablero TFT a todo color.',
+ price=None, price_tag=None, pdf='FICHA_ZT350T-m.pdf',
+ pal=dict(panel='#15181d', ink='#ffffff', acc='#ffd500', ill1='#2a2f37', ill2='#59616c', ill3='#98a0ab'),
+ motor=['Monocilíndrico, SOHC, 4 válvulas, 4 tiempos','349 cc','11,8:1','36,2 HP a 9000 rpm','38 Nm a 7000 rpm','Centrífugo','Líquido','Inyección electrónica Bosch','Eléctrico','Automática','Correa'],
+ chasis=['Horquilla telescópica','Doble amortiguador','Disco hidráulico Ø 265 mm','Disco hidráulico Ø 265 mm','120/70-15 tubular','140/70-14 tubular'],
+ dims=['2025 / 790 / 1305',None,'1405 mm','187 kg','12 litros'],
+ extra=[('Suspensión','Horquilla telescópica Ø 37 mm con doble tija y 109,4 mm de recorrido; doble amortiguador regulable con 98 mm de recorrido')],
+ feats=['Bloqueo electrónico de dirección','Depósito de combustible electrónico','Apertura electrónica del asiento','2 modos de conducción ECO/SPORT','Frenos con ABS Bosch','Inyección electrónica Bosch','Iluminación full LED y tablero TFT LCD a todo color','Doble puerto USB de carga rápida','Sensor de presión y temperatura de neumáticos','Parabrisas regulable en altura','Doble guantera'],
+ src_note='zontes.cl lista este modelo en su menú pero su página da error 404 y zontes.com no lo publica con este código. Los datos provienen de la ficha técnica del importador oficial Imoto (imoto.cl), que no es zontes.cl.',
+ media_note='Fotografías: Imoto (imoto.cl), referenciales. La tabla de la ficha indica motor SOHC y su texto descriptivo menciona culata DOHC; aquí se usa la tabla.')
