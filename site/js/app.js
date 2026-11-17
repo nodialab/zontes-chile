@@ -48,7 +48,7 @@ if(hs&&window.HOME){
  const imgs=$$('.stage__img',hs),buf=Buffer(imgs[0],imgs[1]),hero=$('#hero'),cap=$('#home-cap');
  const show=b=>{const d=window.HOME[b.dataset.home],p=d.pal;
   $$('[data-home]').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  buf.set(d.img,'Zontes '+d.name);
+  buf.set(B+d.img,'Zontes '+d.name);
   for(const[k,v]of Object.entries({panel:p.panel,ink:p.ink,acc:p.acc,ill1:p.ill1,ill2:p.ill2,ill3:p.ill3}))hero.style.setProperty('--'+k,v);
   cap.innerHTML=`<strong>${d.name}</strong> · ${d.tag} — <a href="${B}/modelos/${b.dataset.home}/">ver modelo</a>`};
  const chips=$$('[data-home]');let auto=null,idx=Math.max(0,chips.findIndex(x=>x.getAttribute('aria-pressed')==='true'));
